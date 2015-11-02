@@ -16,17 +16,17 @@ export PLATFORM_INCLUDE:=platforms/iopsys/build.mk
 export DATE:=$(shell date +%Y-%m-%d-%H-%M-%S)
 export LOGIN:=$(shell whoami)
 BASE_PKG_VERSION:=3.4.0
-PKG_RELEASE:=RC1
+PKG_RELEASE:=RC2
 PKG_VERSION:=$(BASE_PKG_VERSION)-$(PKG_RELEASE)_$(DATE)_$(LOGIN)
 export PKG_VERSION
 
 ###########################--RELEASE--################################
 
 PKG_SOURCE_URL:=ssh://git@iopsys.inteno.se/ice-client.git
-PKG_SOURCE_VERSION:=7380810fcbfb5f44c2eb073df48a28942c81056d
+PKG_SOURCE_VERSION:=54b7d104b0aab9e7718c42f61968569ccae223af
 PKG_SOURCE_SUBDIR:=$(PKG_NAME)-$(BASE_PKG_VERSION)
 PKG_SOURCE:=$(PKG_NAME)-$(BASE_PKG_VERSION)-$(PKG_RELEASE).tar.gz
-
+PKG_SOURCE_PROTO:=git
 PKG_BUILD_DIR := $(BUILD_DIR)/$(PKG_NAME)-$(BASE_PKG_VERSION)
 
 
@@ -44,7 +44,7 @@ define Package/ice-client
 $(call Package/ice-client/Default)
 	TITLE:=ice-client
 	MENU:=1
-	DEPENDS:=+libopenssl +libstdcpp +libubus +ubus +ubusd +jshn +libubox
+	DEPENDS:=+libopenssl +libstdcpp +libubus +ubus +ubusd +jshn +libubox +libpthread +libjson-c
 	DEFAULT:=y
 endef
 
@@ -94,11 +94,6 @@ endef
 
 define Build/Clean
 	$(MAKE) -C $(PKG_BUILD_DIR) clean
-endef
-
-define Build/Compile	
-	$(MAKE) -C $(PKG_BUILD_DIR) config
-	$(MAKE) -C $(PKG_BUILD_DIR) 
 endef
 
 define Package/ice-client/preinst
@@ -407,9 +402,6 @@ define Package/ice-client-logreader
   $(call Package/ice-client/Default)
   TITLE:=LogReader
   DEPENDS+= 
-  # Actually logreader still works without all this
-  # however when collectd support is needed, all this is required on top
-  # +collectd +libltdl +libiptc +collectd-mod-network +collectd-mod-memory +collectd-mod-cpu +collectd-mod-interface
 endef
 
 define Package/ice-client-logreader/description
@@ -809,15 +801,6 @@ define Package/ice-client-monitor/postinst
 read -t 1 <>/tmp/cfout
 if [ -f /tmp/ice.pid  ]; then
 	echo "system moduleAdd file=monitorService.so.1.0.1" package="ice-client-monitor" > /tmp/cfin
-fi
-exit 0
-endef
-
-define Package/ice-client-torrent/postinst
-#!/bin/sh
-read -t 1 <>/tmp/cfout
-if [ -f /tmp/ice.pid  ]; then
-	echo "system moduleAdd file=torrentService.so.1.0.1" package="ice-client-torrent" > /tmp/cfin
 fi
 exit 0
 endef
