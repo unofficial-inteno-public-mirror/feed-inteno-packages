@@ -206,7 +206,7 @@ $(eval $(call protocol,core,Support for static/dhcp/none))
 $(eval $(call protocol,ppp,Support for PPP/PPPoE/PPPoA/PPtP))
 $(eval $(call protocol,ipv6,Support for DHCPv6/6in4/6to4/6rd,+PACKAGE_luci-proto-ipv6:6in4 +PACKAGE_luci-proto-ipv6:6to4 +PACKAGE_luci-proto-ipv6:6rd +PACKAGE_luci-proto-ipv6:ipv6-support))
 $(eval $(call protocol,3g,Support for 3G,+PACKAGE_luci-proto-3g:comgt))
-$(eval $(call protocol,4g,Support for 4G,+PACKAGE_luci-proto-4g:libmbim +libqmi))
+$(eval $(call protocol,4g,Support for 4G,+PACKAGE_luci-proto-4g))
 $(eval $(call protocol,relay,Support for relayd pseudo bridges,+PACKAGE_luci-proto-relay:relayd))
 
 
