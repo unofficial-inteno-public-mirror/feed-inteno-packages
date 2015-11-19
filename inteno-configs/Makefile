@@ -26,7 +26,7 @@ define NewConfig
 	$(INSTALL_DIR) $(1)/etc/uci-defaults
 	$(CP) $(PKG_BUILD_DIR)/conf-caiman-inteno/etc/config/* $(1)/etc/config/
 	$(CP) $(PKG_BUILD_DIR)/conf-caiman-inteno/etc/uci-defaults/* $(1)/etc/uci-defaults
-  endif
+  endef
 endef
 
 ######################################
