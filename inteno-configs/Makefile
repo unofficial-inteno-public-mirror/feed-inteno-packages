@@ -10,7 +10,7 @@ include $(TOPDIR)/rules.mk
 PKG_NAME:=inteno-configs
 
 PKG_VERSION:=1.0
-PKG_SOURCE_URL:=git://git@iopsys.inteno.se:inteno-configs.git
+PKG_SOURCE_URL:=git@iopsys.inteno.se:inteno-configs.git
 PKG_SOURCE_PROTO:=git
 PKG_SOURCE_VERSION:=00db0314e997307f7036faf0777dd3d6bb14aff9
 
