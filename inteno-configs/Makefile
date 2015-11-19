@@ -20,12 +20,12 @@ PKG_SOURCE_SUBDIR:=$(PKG_NAME)-$(PKG_VERSION)
 
 include $(INCLUDE_DIR)/package.mk
 
-define NewConfig
+define NewConfig 
   define Package/$(1)/install
-	$(INSTALL_DIR) $(1)/etc/config
-	$(INSTALL_DIR) $(1)/etc/uci-defaults
-	$(CP) $(PKG_BUILD_DIR)/conf-caiman-inteno/etc/config/* $(1)/etc/config/
-	$(CP) $(PKG_BUILD_DIR)/conf-caiman-inteno/etc/uci-defaults/* $(1)/etc/uci-defaults
+	$(INSTALL_DIR) $$(1)/etc/config
+	$(INSTALL_DIR) $$(1)/etc/uci-defaults
+	$(CP) $(PKG_BUILD_DIR)/$(1)/etc/config/* $$(1)/etc/config/ | true
+	$(CP) $(PKG_BUILD_DIR)/$(1)/etc/uci-defaults/* $$(1)/etc/uci-defaults | true
   endef
 endef
 
@@ -44,26 +44,11 @@ define Package/conf-caiman-inteno
 endef
 
 
-define Package/conf-common-inteno/install
-	$(INSTALL_DIR) $(1)/etc/config
-	$(INSTALL_DIR) $(1)/etc/uci-defaults
-	$(CP) $(PKG_BUILD_DIR)/conf-common-inteno/etc/config/* $(1)/etc/config/ | true
-	$(CP) $(PKG_BUILD_DIR)/conf-common-inteno/etc/uci-defaults/* $(1)/etc/uci-defaults | true
-endef
-
-
-define Package/conf-caiman-inteno/install
-	$(INSTALL_DIR) $(1)/etc/config
-	$(INSTALL_DIR) $(1)/etc/uci-defaults
-	$(CP) $(PKG_BUILD_DIR)/conf-caiman-inteno/etc/config/* $(1)/etc/config/ | true
-	$(CP) $(PKG_BUILD_DIR)/conf-caiman-inteno/etc/uci-defaults/* $(1)/etc/uci-defaults | true
-endef
-
 
 ######################################
 
-#$(eval $(call NewConfig,conf-common-inteno))
-#$(eval $(call NewConfig,conf-caiman-inteno))
+$(eval $(call NewConfig,conf-common-inteno))
+$(eval $(call NewConfig,conf-caiman-inteno))
 
 ######################################
 
