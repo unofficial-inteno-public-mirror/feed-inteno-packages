@@ -20,6 +20,15 @@ PKG_SOURCE_SUBDIR:=$(PKG_NAME)-$(PKG_VERSION)
 
 include $(INCLUDE_DIR)/package.mk
 
+define NewConfig
+  define Package/$(1)/install
+	$(INSTALL_DIR) $(1)/etc/config
+	$(INSTALL_DIR) $(1)/etc/uci-defaults
+	$(CP) $(PKG_BUILD_DIR)/conf-caiman-inteno/etc/config/* $(1)/etc/config/
+	$(CP) $(PKG_BUILD_DIR)/conf-caiman-inteno/etc/uci-defaults/* $(1)/etc/uci-defaults
+  endif
+endef
+
 ######################################
 
 define Package/conf-common-inteno
@@ -28,13 +37,20 @@ define Package/conf-common-inteno
   TITLE:=conf-common-inteno
 endef
 
-define Package/conf-common-inteno/install
-	$(INSTALL_DIR) $(1)/etc/config
-	$(CP) $(PKG_BUILD_DIR)/conf-common-inteno/etc/config/* $(1)/etc/config/
+define Package/conf-caiman-inteno
+  SECTION:=utils
+  CATEGORY:=Utilities
+  TITLE:=conf-caiman-inteno
 endef
 
 
 ######################################
 
+$(eval $(call NewConfig,conf-common-inteno))
+$(eval $(call NewConfig,conf-caiman-inteno))
+
+######################################
+
 $(eval $(call BuildPackage,conf-common-inteno))
+$(eval $(call BuildPackage,conf-caiman-inteno))
 
