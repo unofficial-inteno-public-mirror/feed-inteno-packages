@@ -20,6 +20,8 @@ PKG_SOURCE_SUBDIR:=$(PKG_NAME)-$(PKG_VERSION)
 
 include $(INCLUDE_DIR)/package.mk
 
+######################################
+
 define NewConfig 
   define Package/$(1)/install
 	$(INSTALL_DIR) $$(1)/etc/config
@@ -27,22 +29,14 @@ define NewConfig
 	$(CP) $(PKG_BUILD_DIR)/$(1)/etc/config/* $$(1)/etc/config/ | true
 	$(CP) $(PKG_BUILD_DIR)/$(1)/etc/uci-defaults/* $$(1)/etc/uci-defaults | true
   endef
+
+  define Package/$(1)
+	SECTION:=utils
+	CATEGORY:=Utilities
+	TITLE:=$(1)
+  endef
+
 endef
-
-######################################
-
-define Package/conf-common-inteno
-  SECTION:=utils
-  CATEGORY:=Utilities
-  TITLE:=conf-common-inteno
-endef
-
-define Package/conf-caiman-inteno
-  SECTION:=utils
-  CATEGORY:=Utilities
-  TITLE:=conf-caiman-inteno
-endef
-
 
 
 ######################################
