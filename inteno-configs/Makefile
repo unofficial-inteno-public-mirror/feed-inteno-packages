@@ -39,13 +39,14 @@ define NewConfig
 endef
 
 
+define AddConfig
+  $(eval $(call NewConfig,$(1)))
+  $(eval $(call BuildPackage,$(1)))
+endef
+
 ######################################
 
-$(eval $(call NewConfig,conf-common-inteno))
-$(eval $(call NewConfig,conf-caiman-inteno))
+$(eval $(call AddConfig,conf-common-inteno))
+$(eval $(call AddConfig,conf-caiman-inteno))
 
-######################################
-
-$(eval $(call BuildPackage,conf-common-inteno))
-$(eval $(call BuildPackage,conf-caiman-inteno))
 
