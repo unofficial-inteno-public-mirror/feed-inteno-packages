@@ -12,7 +12,7 @@ PKG_NAME:=inteno-configs
 PKG_VERSION:=1.0
 PKG_SOURCE_URL:=git@iopsys.inteno.se:inteno-configs.git
 PKG_SOURCE_PROTO:=git
-PKG_SOURCE_VERSION:=82a923860c21762b6b19e9a7a0b2b5aaeea59245
+PKG_SOURCE_VERSION:=c377755079e77b10b0aa49cafe38b735d8756d9b
 
 PKG_RELEASE=$(PKG_SOURCE_VERSION)
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
@@ -44,10 +44,26 @@ define Package/conf-caiman-inteno
 endef
 
 
+define Package/conf-common-inteno/install
+	$(INSTALL_DIR) $(1)/etc/config
+	$(INSTALL_DIR) $(1)/etc/uci-defaults
+	$(CP) $(PKG_BUILD_DIR)/conf-common-inteno/etc/config/* $(1)/etc/config/ | true
+	$(CP) $(PKG_BUILD_DIR)/conf-common-inteno/etc/uci-defaults/* $(1)/etc/uci-defaults | true
+endef
+
+
+define Package/conf-caiman-inteno/install
+	$(INSTALL_DIR) $(1)/etc/config
+	$(INSTALL_DIR) $(1)/etc/uci-defaults
+	$(CP) $(PKG_BUILD_DIR)/conf-caiman-inteno/etc/config/* $(1)/etc/config/ | true
+	$(CP) $(PKG_BUILD_DIR)/conf-caiman-inteno/etc/uci-defaults/* $(1)/etc/uci-defaults | true
+endef
+
+
 ######################################
 
-$(eval $(call NewConfig,conf-common-inteno))
-$(eval $(call NewConfig,conf-caiman-inteno))
+#$(eval $(call NewConfig,conf-common-inteno))
+#$(eval $(call NewConfig,conf-caiman-inteno))
 
 ######################################
 
