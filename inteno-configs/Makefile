@@ -31,8 +31,8 @@ define NewConfig
   endef
 
   define Package/$(1)
-	SECTION:=utils
-	CATEGORY:=Utilities
+	SECTION:=configs
+	CATEGORY:=Configurations
 	TITLE:=$(1)
   endef
 
