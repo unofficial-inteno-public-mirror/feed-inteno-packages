@@ -12,6 +12,9 @@ include $(INCLUDE_DIR)/kernel.mk
 
 PKG_NAME:=iopsys-base-files
 PKG_RELEASE:=156
+PKG_SOURCE_URL:=git@iopsys.inteno.se:iopsys-base-files.git
+PKG_SOURCE_PROTO:=git
+PKG_SOURCE_VERSION:=add074150628e45975195cab5909b847c0738f04
 
 PKG_FILE_DEPENDS:=$(PLATFORM_DIR)/ $(GENERIC_PLATFORM_DIR)/base-files/
 PKG_BUILD_DEPENDS:=opkg/host
