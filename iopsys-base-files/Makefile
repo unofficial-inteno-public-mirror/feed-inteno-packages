@@ -11,22 +11,25 @@ include $(INCLUDE_DIR)/version.mk
 include $(INCLUDE_DIR)/kernel.mk
 
 PKG_NAME:=iopsys-base-files
-PKG_RELEASE:=156
+PKG_VERSION:=1.0
 PKG_SOURCE_URL:=git@iopsys.inteno.se:iopsys-base-files.git
 PKG_SOURCE_PROTO:=git
 PKG_SOURCE_VERSION:=add074150628e45975195cab5909b847c0738f04
 
-PKG_FILE_DEPENDS:=$(PLATFORM_DIR)/ $(GENERIC_PLATFORM_DIR)/base-files/
-PKG_BUILD_DEPENDS:=opkg/host
+# PKG_FILE_DEPENDS:=$(PLATFORM_DIR)/ $(GENERIC_PLATFORM_DIR)/base-files/
+# PKG_BUILD_DEPENDS:=opkg/host
+
+PKG_SOURCE_SUBDIR:=$(PKG_NAME)-$(PKG_VERSION)
+PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION)-$(PKG_SOURCE_VERSION).tar.gz
 
 include $(INCLUDE_DIR)/package.mk
 
-ifneq ($(DUMP),1)
-  TARGET:=-$(BOARD)
-  ifneq ($(wildcard $(PLATFORM_DIR)/base-files-$(PROFILE) $(PLATFORM_SUBDIR)/base-files-$(PROFILE)),)
-    TARGET:=$(TARGET)-$(PROFILE)
-  endif
-endif
+# ifneq ($(DUMP),1)
+#   TARGET:=-$(BOARD)
+#   ifneq ($(wildcard $(PLATFORM_DIR)/base-files-$(PROFILE) $(PLATFORM_SUBDIR)/base-files-$(PROFILE)),)
+#     TARGET:=$(TARGET)-$(PROFILE)
+#   endif
+# endif
 
 define Package/iopsys-base-files
   SECTION:=base
@@ -76,17 +79,17 @@ define ImageConfigOptions
 endef
 endif
 
-define Build/Prepare
-	mkdir -p $(PKG_BUILD_DIR)
-endef
+#define Build/Prepare
+#	mkdir -p $(PKG_BUILD_DIR)
+#endef
 
-define Build/Compile/Default
-
-endef
-Build/Compile = $(Build/Compile/Default)
+#define Build/Compile/Default
+#
+#endef
+#Build/Compile = $(Build/Compile/Default)
 
 define Package/iopsys-base-files/install
-	$(CP) ./files/* $(1)/
+	$(CP) $(PKG_BUILD_DIR)/files/* $(1)/
 	if [ -d $(GENERIC_PLATFORM_DIR)/base-files/. ]; then \
 		$(CP) $(GENERIC_PLATFORM_DIR)/base-files/* $(1)/; \
 	fi
@@ -152,8 +155,8 @@ define Package/iopsys-base-files/install
 	done
 endef
 
-ifneq ($(DUMP),1)
-  -include $(PLATFORM_DIR)/base-files.mk
-endif
+# ifneq ($(DUMP),1)
+#   -include $(PLATFORM_DIR)/base-files.mk
+# endif
 
 $(eval $(call BuildPackage,iopsys-base-files))
