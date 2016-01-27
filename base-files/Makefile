@@ -10,7 +10,7 @@ include $(TOPDIR)/rules.mk
 include $(INCLUDE_DIR)/version.mk
 include $(INCLUDE_DIR)/kernel.mk	
 
-PKG_NAME:=iopsys-base-files
+PKG_NAME:=base-files
 PKG_VERSION:=1.0
 PKG_SOURCE_URL:=git@iopsys.inteno.se:iopsys-base-files.git
 PKG_SOURCE_PROTO:=git
@@ -31,7 +31,7 @@ ifneq ($(DUMP),1)
   endif
 endif
 
-define Package/iopsys-base-files
+define Package/base-files
   SECTION:=base
   CATEGORY:=Base system
   DEPENDS:=+netifd +libc +procd +jsonfilter
@@ -40,7 +40,7 @@ define Package/iopsys-base-files
   VERSION:=$(PKG_RELEASE)-$(REVISION)
 endef
 
-define Package/iopsys-base-files/conffiles
+define Package/base-files/conffiles
 /etc/hosts
 /etc/inittab
 /etc/group
@@ -57,7 +57,7 @@ define Package/iopsys-base-files/conffiles
 $(call $(TARGET)/conffiles)
 endef
 
-define Package/iopsys-base-files/description
+define Package/base-files/description
  This package contains a base filesystem and system scripts for Iopsys.
 endef
 
@@ -79,7 +79,7 @@ define ImageConfigOptions
 endef
 endif
 
-define Package/iopsys-base-files/install
+define Package/base-files/install
 	$(CP) $(PKG_BUILD_DIR)/files/* $(1)/
 	if [ -d $(GENERIC_PLATFORM_DIR)/base-files/. ]; then \
 		$(CP) $(GENERIC_PLATFORM_DIR)/base-files/* $(1)/; \
@@ -150,4 +150,4 @@ ifneq ($(DUMP),1)
   -include $(PLATFORM_DIR)/base-files.mk
 endif
 
-$(eval $(call BuildPackage,iopsys-base-files))
+$(eval $(call BuildPackage,base-files))
