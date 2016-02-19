@@ -699,6 +699,7 @@ configure_sip_provider()
 	local is_fax
 	local autoframing
 	local nat
+	local qualify
 	local encryption
 
 	config_get enabled $1 enabled
@@ -713,6 +714,7 @@ configure_sip_provider()
 	config_get is_fax $1 is_fax
 	config_get autoframing $1 autoframing
 	config_get nat $1 nat
+	config_get qualify $1 qualify
 	config_get transport $1 transport
 	config_get encryption $1 encryption
 
@@ -805,6 +807,13 @@ configure_sip_provider()
 		sed -i "s/|NAT|/yes/"	$WORKDIR/sip_provider.tmp
 	else
 		sed -i "s/|NAT|/$nat/"	$WORKDIR/sip_provider.tmp
+	fi
+
+	# Qualify
+	if [ -z "$qualify" ] ; then
+		sed -i 's/\(^.*\)|QUALIFY|\(.*$\)/;\1yes\2/'	$WORKDIR/sip_provider.tmp
+	else
+		sed -i "s/|QUALIFY|/$qualify/"			$WORKDIR/sip_provider.tmp
 	fi
 
 	# Set registered extension so that incoming calls match the correct peer                     
