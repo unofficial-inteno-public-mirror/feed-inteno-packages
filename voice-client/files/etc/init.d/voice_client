@@ -351,6 +351,7 @@ configure_sip()
 	local registerattempts
 	local registertimeoutbackoff
 	local registerattemptsbackoff
+	local rtpkeepalive
 	local remotehold
 	local tos_sip
 	local tos_audio
@@ -383,6 +384,7 @@ configure_sip()
 	config_get register403timeout $1 register403timeout
 	config_get register503timeout $1 register503timeout
 	config_get remotehold $1 remotehold
+	config_get rtpkeepalive $1 rtpkeepalive
 	config_get tos_sip $1 tos_sip
 	config_get tos_audio $1 tos_audio
 	config_get tos_video $1 tos_video
@@ -469,6 +471,11 @@ configure_sip()
 	else
 		sed -i "s/|REGISTERATTEMPTSBACKOFF|/$registerattemptsbackoff/g"                           $WORKDIR/sip.tmp
 	fi
+
+	if [ -z "$rtpkeepalive" ] ; then
+		rtpkeepalive=30
+	fi
+	sed -i "s/|RTPKEEPALIVE|/$rtpkeepalive/g" $WORKDIR/sip.tmp
 
 	if [ -z "$register403timeout" ] ; then
 		sed -i "s/register403timeout=|REGISTER403TIMEOUT|/;register403timeout=/g" $WORKDIR/sip.tmp
