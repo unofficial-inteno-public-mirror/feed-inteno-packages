@@ -349,6 +349,7 @@ configure_sip()
 	local minexpiry
 	local defaultexpiry
 	local maxexpiry
+	local qualifyfreq
 	local registertimeout
 	local registerattempts
 	local registertimeoutbackoff
@@ -381,6 +382,7 @@ configure_sip()
 	config_get minexpiry $1 minexpiry
 	config_get defaultexpiry $1 defaultexpiry
 	config_get maxexpiry $1 maxexpiry
+	config_get qualifyfreq $1 qualifyfreq
 	config_get registertimeout $1 registertimeout
 	config_get registerattempts $1 registerattempts
 	config_get registertimeoutbackoff $1 registertimeoutbackoff
@@ -445,6 +447,11 @@ configure_sip()
 	else
 		sed -i "s/|MAXEXPIRY|/$maxexpiry/g"	$WORKDIR/sip.tmp
 	fi
+
+	if [ -z "$qualifyfreq" ] ; then
+		qualifyfreq=55
+	fi
+	sed -i "s/|QUALIFYFREQ|/$qualifyfreq/"		$WORKDIR/sip.tmp
 
 	if [ -z "$registertimeout" ] ; then
 		sed -i "s/registertimeout=|REGISTERTIMEOUT|/;registertimeout=/g"	$WORKDIR/sip.tmp
