@@ -346,6 +346,7 @@ configure_sip()
 	local rtcpinterval
 	local dtmfmode
 	local blindxfer
+	local minexpiry
 	local defaultexpiry
 	local registertimeout
 	local registerattempts
@@ -376,6 +377,7 @@ configure_sip()
 	config_get rtcpinterval $1 rtcpinterval
 	config_get dtmfmode $1 dtmfmode
 	config_get blindxfer $1 blindxfer
+	config_get minexpiry $1 minexpiry
 	config_get defaultexpiry $1 defaultexpiry
 	config_get registertimeout $1 registertimeout
 	config_get registerattempts $1 registerattempts
@@ -422,6 +424,12 @@ configure_sip()
 		sed -i "s/bindport=|BINDPORT|/;bindport=/g"	$WORKDIR/sip.tmp
 	else
 		sed -i "s/|BINDPORT|/$bindport/g"		$WORKDIR/sip.tmp
+	fi
+
+	if [ -z "$minexpiry" ] ; then
+		sed -i "s/|MINEXPIRY|/60/g"		$WORKDIR/sip.tmp
+	else
+		sed -i "s/|MINEXPIRY|/$minexpiry/g"	$WORKDIR/sip.tmp
 	fi
 
 	if [ -z "$defaultexpiry" ] ; then
