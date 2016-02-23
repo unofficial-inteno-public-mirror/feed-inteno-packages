@@ -348,6 +348,7 @@ configure_sip()
 	local blindxfer
 	local minexpiry
 	local defaultexpiry
+	local maxexpiry
 	local registertimeout
 	local registerattempts
 	local registertimeoutbackoff
@@ -379,6 +380,7 @@ configure_sip()
 	config_get blindxfer $1 blindxfer
 	config_get minexpiry $1 minexpiry
 	config_get defaultexpiry $1 defaultexpiry
+	config_get maxexpiry $1 maxexpiry
 	config_get registertimeout $1 registertimeout
 	config_get registerattempts $1 registerattempts
 	config_get registertimeoutbackoff $1 registertimeoutbackoff
@@ -436,6 +438,12 @@ configure_sip()
 		sed -i "s/|DEFAULTEXPIRY|/300/g"				$WORKDIR/sip.tmp
 	else
 		sed -i "s/|DEFAULTEXPIRY|/$defaultexpiry/g"			$WORKDIR/sip.tmp
+	fi
+
+	if [ -z "$maxexpiry" ] ; then
+		sed -i "s/|MAXEXPIRY|/600/g"		$WORKDIR/sip.tmp
+	else
+		sed -i "s/|MAXEXPIRY|/$maxexpiry/g"	$WORKDIR/sip.tmp
 	fi
 
 	if [ -z "$registertimeout" ] ; then
