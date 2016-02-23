@@ -110,7 +110,7 @@ compare_configs_and_copy_changed()
 {
 	# First, compute md5sums of the config files in $WORKDIR.
 	cd $WORKDIR/
-	md5sum * > $MD5SUMSFILE
+	find . -type f -name \* | sed 's%^\./%%' | xargs md5sum > $MD5SUMSFILE
 
 	# Now, check the files in $ASTERISKDIR against the md5sums.
 	cd $ASTERISKDIR/
