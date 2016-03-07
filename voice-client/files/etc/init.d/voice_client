@@ -33,6 +33,9 @@ MD5SUMSFILE=/tmp/$MODULENAME-sums.$$
 # Whitespace separated list of BRCM feature access codes
 BRCM_FAC=
 
+# @todo@ Make configurable
+DYNAMIC_FEATURES=""
+
 #TODO: go through templates, check usage
 
 TMPL_EXTENSIONS=$TEMPLATEDIR/extensions.conf.TEMPLATE
@@ -1520,6 +1523,7 @@ configure_extensions_provider()
 	sed -i "s/|RETRYTIME|/$cbbs_retrytime/"		$WORKDIR/extensions_provider.tmp
 	sed -i "s/|WAITTIME|/$cbbs_waittime/"		$WORKDIR/extensions_provider.tmp
 	sed -i "s/|CONGESTIONTONE|/$congestiontone/"	$WORKDIR/extensions_provider.tmp
+	sed -i "s/|DYNAMIC_FEATURES|/$DYNAMIC_FEATURES/"	$WORKDIR/extensions_provider.tmp
 
 	# Configure call forwarding if enabled
 	if [ -n "$callforward_enabled" -a "$callforward_enabled" = "1" ] ; then
@@ -1577,6 +1581,7 @@ configure_extensions_provider()
 
 	local call_ivr call_queue extension
 	echo "exten => $user,n,Set(__TRANSFER_CONTEXT=\${CHANNEL(peername)}-transfer)" >>	$tmp
+	echo "exten => $user,n,Set(__DYNAMIC_FEATURES=$DYNAMIC_FEATURES)" >>   $tmp
 
         # replace prefix '+' with '00'
 	echo "exten => $user,n,GotoIf($[\"\${CALLERID(NUM):0:1}\" = \"+\"]?rewrite:norewrite)" >>	$tmp

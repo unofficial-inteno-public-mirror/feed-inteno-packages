@@ -5,3 +5,4 @@ pickupexten = ;Disabled
 blindxfer => |BLINDXFER| ;Blind transfer (default is #)
 disconnect => ;Disabled
 
+[applicationmap]
