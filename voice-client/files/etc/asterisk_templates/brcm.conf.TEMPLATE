@@ -90,7 +90,10 @@ hfmaxdelay=500
 ; The '.' character is used as wildcard
 featureaccesscodes = |FAC|
 
-;
+
+; Remote flash [no, yes]
+remoteflash=yes
+
 ; Unused/undocumented settings, do not uncomment/change these
 ;
 ;language=
