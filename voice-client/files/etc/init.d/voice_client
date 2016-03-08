@@ -347,6 +347,7 @@ configure_sip()
 	local dtmfmode
 	local blindxfer
 	local defaultexpiry
+	local qualifyfreq
 	local registertimeout
 	local registerattempts
 	local registertimeoutbackoff
@@ -376,6 +377,7 @@ configure_sip()
 	config_get dtmfmode $1 dtmfmode
 	config_get blindxfer $1 blindxfer
 	config_get defaultexpiry $1 defaultexpiry
+	config_get qualifyfreq $1 qualifyfreq
 	config_get registertimeout $1 registertimeout
 	config_get registerattempts $1 registerattempts
 	config_get registertimeoutbackoff $1 registertimeoutbackoff
@@ -427,6 +429,11 @@ configure_sip()
 	else
 		sed -i "s/|DEFAULTEXPIRY|/$defaultexpiry/g"			$WORKDIR/sip.tmp
 	fi
+
+	if [ -z "$qualifyfreq" ] ; then
+		qualifyfreq=55
+	fi
+	sed -i "s/|QUALIFYFREQ|/$qualifyfreq/"		$WORKDIR/sip.tmp
 
 	if [ -z "$registertimeout" ] ; then
 		sed -i "s/registertimeout=|REGISTERTIMEOUT|/;registertimeout=/g"	$WORKDIR/sip.tmp
@@ -698,6 +705,7 @@ configure_sip_provider()
 	local secret
 	local is_fax
 	local autoframing
+	local qualify
 	local encryption
 
 	config_get enabled $1 enabled
@@ -711,6 +719,7 @@ configure_sip_provider()
 	config_get secret $1 secret
 	config_get is_fax $1 is_fax
 	config_get autoframing $1 autoframing
+	config_get qualify $1 qualify
 	config_get transport $1 transport
 	config_get encryption $1 encryption
 
@@ -797,6 +806,13 @@ configure_sip_provider()
 		autoframing=0
 	fi
 	sed -i "s/|AUTOFRAMING|/$autoframing/"			$WORKDIR/sip_provider.tmp
+
+	# Qualify
+	if [ -z "$qualify" ] ; then
+		sed -i 's/\(^.*\)|QUALIFY|\(.*$\)/;\1yes\2/'	$WORKDIR/sip_provider.tmp
+	else
+		sed -i "s/|QUALIFY|/$qualify/"			$WORKDIR/sip_provider.tmp
+	fi
 
 	# Set registered extension so that incoming calls match the correct peer                     
 	sed -i "s/|CONTACT_USER|/$user/g"      $WORKDIR/sip_provider.tmp
