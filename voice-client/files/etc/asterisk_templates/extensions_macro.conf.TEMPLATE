@@ -177,3 +177,9 @@ exten => s,n,	Hangup()
 ;
 exten => s,1,	BRCMFlash(${DYNAMIC_PEERNAME},${ARG1})
 ;exten => s,n,	MacroExit
+
+[macro-feature-test]
+;
+; Test
+;
+exten => s,1,	DumpChan()

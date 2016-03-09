@@ -34,7 +34,7 @@ MD5SUMSFILE=/tmp/$MODULENAME-sums.$$
 BRCM_FAC=
 
 # @todo@ Make configurable
-DYNAMIC_FEATURES="brcm_flash#brcm_flash0#brcm_flash1#brcm_flash2#brcm_flash3#brcm_flash4"
+DYNAMIC_FEATURES="brcm_flash#brcm_flash0#brcm_flash1#brcm_flash2#brcm_flash3#brcm_flash4#test"
 
 #TODO: go through templates, check usage
 
