@@ -170,8 +170,9 @@ exten => s,n,	Wait(5)
 exten => s,n,   Congestion(10)
 exten => s,n,	Hangup()
 
-[macro-brcm-flash]
+[macro-feature-brcm-flash]
 ;
+; BRCMFlash
 ; ${ARG1} - DTMF
 ;
 exten => s,1,	BRCMFlash(${DYNAMIC_PEERNAME},${ARG1})
