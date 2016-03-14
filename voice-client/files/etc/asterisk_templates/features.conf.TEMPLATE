@@ -1,5 +1,6 @@
 [general]
 pickupexten = ;Disabled
+featuredigittimeout = 10000 ;ms
 
 [featuremap]
 blindxfer => |BLINDXFER| ;Blind transfer (default is #)

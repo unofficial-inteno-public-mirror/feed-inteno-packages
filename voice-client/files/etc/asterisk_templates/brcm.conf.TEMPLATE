@@ -92,7 +92,7 @@ featureaccesscodes = |FAC|
 
 
 ; Remote flash [no, yes]
-remoteflash=yes
+remoteflash=no
 
 ; Unused/undocumented settings, do not uncomment/change these
 ;

@@ -182,4 +182,5 @@ exten => s,1,	BRCMFlash(${DYNAMIC_PEERNAME},${ARG1})
 ;
 ; Test
 ;
+;exten => s,1,	Set(CHANNEL(remotehold)=no)
 exten => s,1,	DumpChan()
