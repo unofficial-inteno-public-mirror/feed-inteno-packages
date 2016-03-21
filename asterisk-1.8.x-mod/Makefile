@@ -415,6 +415,9 @@ ifeq ($(CONFIG_DEBUG),y)
 	#	--enable LOW_MEMORY
 	#MENUSELECT_ARGS+= \
 	#	--enable STATIC_BUILD
+
+	#CONFIGURE_ARGS+= \
+	#	--enable-coverage
 else
 	MENUSELECT_ARGS+= \
 		--enable LOW_MEMORY
