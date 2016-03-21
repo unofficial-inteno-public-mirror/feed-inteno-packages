@@ -416,11 +416,16 @@ ifeq ($(CONFIG_DEBUG),y)
 	#MENUSELECT_ARGS+= \
 	#	--enable STATIC_BUILD
 
+	DEBUG:=
+	OPTIMIZE:=
+
 	#CONFIGURE_ARGS+= \
 	#	--enable-coverage
 else
 	MENUSELECT_ARGS+= \
 		--enable LOW_MEMORY
+	DEBUG:=
+	OPTIMIZE:=
 endif
 
 define Build/Prepare
@@ -452,8 +457,8 @@ define Build/Compile
 		ASTKEYDIR="/usr/lib/asterisk" \
 		ASTDBDIR="/usr/lib/asterisk" \
 		NOISY_BUILD="1" \
-		DEBUG="" \
-		OPTIMIZE="" \
+		DEBUG="$(DEBUG)" \
+		OPTIMIZE="$(OPTIMIZE)" \
 		DESTDIR="$(PKG_INSTALL_DIR)" \
 		all install samples
 endef
