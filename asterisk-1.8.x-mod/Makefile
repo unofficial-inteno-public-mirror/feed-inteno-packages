@@ -407,7 +407,11 @@ ifeq ($(CONFIG_DEBUG),y)
 	MENUSELECT_ARGS+= \
 		--enable MALLOC_DEBUG
 	#MENUSELECT_ARGS+= \
+	#	--disable LOADABLE_MODULES
+	#MENUSELECT_ARGS+= \
 	#	--enable LOW_MEMORY
+	#MENUSELECT_ARGS+= \
+	#	--enable STATIC_BUILD
 else
 	MENUSELECT_ARGS+= \
 		--enable LOW_MEMORY
