@@ -407,6 +407,10 @@ endef
 define Build/Configure
 	-rm $(PKG_BUILD_DIR)/menuselect.makeopts
 	$(call Build/Configure/Default,,$(SITE_VARS))
+	if test -n "$(MENUSELECT_ARGS)" ; then \
+		$(MAKE) -C "$(PKG_BUILD_DIR)" menuselect.makeopts ; \
+		(cd $(PKG_BUILD_DIR) && ./menuselect/menuselect $(MENUSELECT_ARGS)) ; \
+	fi
 endef
 
 define Build/Compile
