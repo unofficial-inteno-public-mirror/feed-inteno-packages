@@ -395,7 +395,10 @@ CONFIGURE_ARGS+= \
 EXTRA_CFLAGS+= $(TARGET_CPPFLAGS)
 EXTRA_LDFLAGS+= $(TARGET_LDFLAGS)
 
-
+ifeq ($(CONFIG_DEBUG),y)
+	CONFIGURE_ARGS+= \
+		--enable-dev-mode
+endif
 
 define Build/Prepare
 	$(call Build/Prepare/Default)
