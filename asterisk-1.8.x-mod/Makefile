@@ -398,6 +398,11 @@ EXTRA_LDFLAGS+= $(TARGET_LDFLAGS)
 ifeq ($(CONFIG_DEBUG),y)
 	CONFIGURE_ARGS+= \
 		--enable-dev-mode
+	#MENUSELECT_ARGS+= \
+	#	--enable LOW_MEMORY
+else
+	MENUSELECT_ARGS+= \
+		--enable LOW_MEMORY
 endif
 
 define Build/Prepare
@@ -421,7 +426,7 @@ define Build/Compile
 		include/asterisk/version.h \
 		include/asterisk/buildopts.h defaults.h \
 		makeopts.embed_rules
-	ASTCFLAGS="$(EXTRA_CFLAGS) -DLOW_MEMORY" \
+	ASTCFLAGS="$(EXTRA_CFLAGS)" \
 	ASTLDFLAGS="$(EXTRA_LDFLAGS)" \
 	$(MAKE) -C "$(PKG_BUILD_DIR)" \
 		ASTVARLIBDIR="/usr/lib/asterisk" \
