@@ -42,6 +42,9 @@ $(call Package/asterisk18-mod/Default)
   TITLE:=Complete open source PBX, v1.8x
   MENU:=1
   DEPENDS:= +natalie-dect-h +PACKAGE_bcmkernel:bcmkernel +PACKAGE_bcmopen:bcmopen +libopenssl +libncurses +libpopt +libpthread +uci +ubus +zlib @!TARGET_avr32
+ifeq ($(CONFIG_PACKAGE_voice-client),y)
+  DEPENDS+= +voice-client
+endif
 endef
 
 define Package/asterisk18-mod/description
@@ -434,6 +437,7 @@ define Build/InstallDev
 	$(CP) $(PKG_INSTALL_DIR)/usr/include/asterisk.h $(1)/usr/include/asterisk-1.8/include/
 endef
 
+ifneq ($(CONFIG_PACKAGE_voice-client),y)
 define Package/asterisk18-mod/conffiles
 /etc/asterisk/asterisk.conf
 /etc/asterisk/modules.conf
@@ -448,14 +452,22 @@ define Package/asterisk18-mod/conffiles
 /etc/default/asterisk
 /etc/init.d/asterisk
 endef
+else
+define Package/asterisk18-mod/conffiles
+/etc/default/asterisk
+/etc/init.d/asterisk
+endef
+endif
 
 define Package/asterisk18-mod/install
 	$(INSTALL_DIR) $(1)/etc/asterisk/ssl
+ifneq ($(CONFIG_PACKAGE_voice-client),y)
 	for f in asterisk extensions features \
 		indications logger manager modules \
 		sip sip_notify rtp; do \
 		$(CP) $(PKG_INSTALL_DIR)/etc/asterisk/$$$$f.conf $(1)/etc/asterisk/ ; \
 	done
+endif
 	$(INSTALL_DIR) $(1)/usr/lib/asterisk/modules
 	for f in app_dial app_echo app_playback app_macro \
 		chan_sip res_rtp_asterisk res_rtp_multicast \
@@ -628,13 +640,17 @@ define Package/asterisk18-mod-chan-skinny/install
 	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/lib/asterisk/modules/chan_skinny.so $(1)/usr/lib/asterisk/modules/
 endef
 
+ifneq ($(CONFIG_PACKAGE_voice-client),y)
 define Package/asterisk18-mod-chan-brcm/conffiles
 /etc/asterisk/brcm.conf
 endef
+endif
 
 define Package/asterisk18-mod-chan-brcm/install
 	$(INSTALL_DIR) $(1)/etc/asterisk
+ifneq ($(CONFIG_PACKAGE_voice-client),y)
 	$(INSTALL_DATA) $(PKG_INSTALL_DIR)/etc/asterisk/brcm.conf $(1)/etc/asterisk/
+endif
 	$(INSTALL_DIR) $(1)/usr/lib/asterisk/modules
 	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/lib/asterisk/modules/chan_brcm.so $(1)/usr/lib/asterisk/modules/
 endef
