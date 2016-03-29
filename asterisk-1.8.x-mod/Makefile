@@ -260,6 +260,17 @@ $(call Package/asterisk18-mod/Default/description)
  This package provides the channel chan_brcm support to Asterisk.
 endef
 
+define Package/asterisk18-mod-chan-sip
+$(call Package/asterisk18-mod/Default)
+  TITLE:=SIP channel support
+  DEPENDS:= asterisk18-mod
+endef
+
+define Package/asterisk18-mod-chan-sip/description
+$(call Package/asterisk18-mod/Default/description)
+ This package provides the channel chan_sip support to Asterisk.
+endef
+
 define Package/asterisk18-mod-curl
 $(call Package/asterisk18-mod/Default)
   TITLE:=CURL support
@@ -475,8 +486,6 @@ define Package/asterisk18-mod/conffiles
 /etc/asterisk/asterisk.conf
 /etc/asterisk/modules.conf
 /etc/asterisk/extensions.conf
-/etc/asterisk/sip.conf
-/etc/asterisk/sip_notify.conf
 /etc/asterisk/features.conf
 /etc/asterisk/indications.conf
 /etc/asterisk/logger.conf
@@ -497,13 +506,13 @@ define Package/asterisk18-mod/install
 ifneq ($(CONFIG_PACKAGE_voice-client),y)
 	for f in asterisk extensions features \
 		indications logger manager modules \
-		sip sip_notify rtp; do \
+		rtp; do \
 		$(CP) $(PKG_INSTALL_DIR)/etc/asterisk/$$$$f.conf $(1)/etc/asterisk/ ; \
 	done
 endif
 	$(INSTALL_DIR) $(1)/usr/lib/asterisk/modules
 	for f in app_dial app_echo app_playback app_macro \
-		chan_sip res_rtp_asterisk res_rtp_multicast \
+		res_rtp_asterisk res_rtp_multicast \
 		codec_ulaw codec_gsm \
 		format_gsm format_pcm format_wav format_wav_gsm \
 		pbx_config \
@@ -688,6 +697,23 @@ endif
 	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/lib/asterisk/modules/chan_brcm.so $(1)/usr/lib/asterisk/modules/
 endef
 
+ifneq ($(CONFIG_PACKAGE_voice-client),y)
+define Package/asterisk18-mod-chan-sip/conffiles
+/etc/asterisk/sip.conf
+/etc/asterisk/sip_notify.conf
+endef
+endif
+
+define Package/asterisk18-mod-chan-sip/install
+	$(INSTALL_DIR) $(1)/etc/asterisk
+ifneq ($(CONFIG_PACKAGE_voice-client),y)
+	$(INSTALL_DATA) $(PKG_INSTALL_DIR)/etc/asterisk/sip.conf $(1)/etc/asterisk/
+	$(INSTALL_DATA) $(PKG_INSTALL_DIR)/etc/asterisk/sip_notify.conf $(1)/etc/asterisk/
+endif
+	$(INSTALL_DIR) $(1)/usr/lib/asterisk/modules
+	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/lib/asterisk/modules/chan_sip.so $(1)/usr/lib/asterisk/modules/
+endef
+
 define Package/asterisk18-mod-curl/install
 	$(INSTALL_DIR) $(1)/usr/lib/asterisk/modules
 	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/lib/asterisk/modules/func_curl.so $(1)/usr/lib/asterisk/modules/
@@ -787,6 +813,7 @@ $(eval $(call BuildPackage,asterisk18-mod-res-timing-pthread))
 $(eval $(call BuildPackage,asterisk18-mod-chan-mgcp))
 $(eval $(call BuildPackage,asterisk18-mod-chan-skinny))
 $(eval $(call BuildPackage,asterisk18-mod-chan-brcm))
+$(eval $(call BuildPackage,asterisk18-mod-chan-sip))
 $(eval $(call BuildPackage,asterisk18-mod-curl))
 $(eval $(call BuildPackage,asterisk18-mod-mysql))
 $(eval $(call BuildPackage,asterisk18-mod-chan-lantiq))
