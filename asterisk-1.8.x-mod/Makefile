@@ -41,7 +41,8 @@ define Package/asterisk18-mod
 $(call Package/asterisk18-mod/Default)
   TITLE:=Complete open source PBX, v1.8x
   MENU:=1
-  DEPENDS:= +natalie-dect-h +PACKAGE_bcmkernel:bcmkernel +PACKAGE_bcmopen:bcmopen +libopenssl +libncurses +libpopt +libpthread +uci +ubus +zlib @!TARGET_avr32
+  #DEPENDS:= +natalie-dect-h +PACKAGE_bcmkernel:bcmkernel +PACKAGE_bcmopen:bcmopen +libopenssl +libncurses +libpopt +libpthread +uci +ubus +zlib @!TARGET_avr32
+  DEPENDS:= +libopenssl +libncurses +libpopt +libpthread +uci +ubus +zlib @!TARGET_avr32
 ifeq ($(CONFIG_PACKAGE_voice-client),y)
   DEPENDS+= +voice-client
 endif
@@ -401,18 +402,18 @@ EXTRA_LDFLAGS+= $(TARGET_LDFLAGS)
 ifeq ($(CONFIG_DEBUG),y)
 	CONFIGURE_ARGS+= \
 		--enable-dev-mode
-	MENUSELECT_ARGS+= \
-		--enable BETTER_BACKTRACES
+	#MENUSELECT_ARGS+= \
+	#	--enable BETTER_BACKTRACES
 	MENUSELECT_ARGS+= \
 		--enable DEBUG_THREADS
 	MENUSELECT_ARGS+= \
 		--enable DONT_OPTIMIZE
-	MENUSELECT_ARGS+= \
-		--enable MALLOC_DEBUG
+	#MENUSELECT_ARGS+= \
+	#	--enable MALLOC_DEBUG
 	#MENUSELECT_ARGS+= \
 	#	--disable LOADABLE_MODULES
-	#MENUSELECT_ARGS+= \
-	#	--enable LOW_MEMORY
+	MENUSELECT_ARGS+= \
+		--enable LOW_MEMORY
 	#MENUSELECT_ARGS+= \
 	#	--enable STATIC_BUILD
 
