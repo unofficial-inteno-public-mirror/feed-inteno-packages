@@ -440,6 +440,37 @@ else
 	OPTIMIZE:=
 endif
 
+ifeq ($(CONFIG_DEBUG),y)
+	MENUSELECT_ARGS+= \
+		--disable CHAN_BRCM
+	MENUSELECT_ARGS+= \
+		--disable CHAN_BRCM_DECT
+	MENUSELECT_ARGS+= \
+		--enable EMBED_ADDONS
+	MENUSELECT_ARGS+= \
+		--enable EMBED_APPS
+	MENUSELECT_ARGS+= \
+		--enable EMBED_BRIDGES
+	MENUSELECT_ARGS+= \
+		--enable EMBED_CDR
+	MENUSELECT_ARGS+= \
+		--enable EMBED_CHANNELS
+	MENUSELECT_ARGS+= \
+		--enable EMBED_CODECS
+	MENUSELECT_ARGS+= \
+		--enable EMBED_FORMATS
+	MENUSELECT_ARGS+= \
+		--enable EMBED_FUNCS
+	MENUSELECT_ARGS+= \
+		--enable EMBED_PBX
+	MENUSELECT_ARGS+= \
+		--enable EMBED_RES
+	MENUSELECT_ARGS+= \
+		--enable EMBED_TEST
+	MENUSELECT_ARGS+= \
+		--disable RES_ADSI
+endif
+
 define Build/Prepare
 	$(call Build/Prepare/Default)
 ifneq ($(CONFIG_TARGET_lantiq),)
@@ -472,6 +503,7 @@ define Build/Compile
 		DEBUG="$(DEBUG)" \
 		OPTIMIZE="$(OPTIMIZE)" \
 		DESTDIR="$(PKG_INSTALL_DIR)" \
+		LD="$(TARGET_CROSS)ld" \
 		all install samples
 endef
 
