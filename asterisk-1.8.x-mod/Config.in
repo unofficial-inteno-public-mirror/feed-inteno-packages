@@ -1,0 +1,12 @@
+choice
+	prompt "Asterisk Version"
+	depends on PACKAGE_asterisk18-mod
+	default ASTERISK_VERSION_1_8_10_1_IOPSYS
+	help
+		Select the version of Asterisk you wish to use.
+
+	config ASTERISK_VERSION_1_8_10_1_IOPSYS
+		bool "Asterisk 1.8.10.1 (IOPSYS)"
+	config ASTERISK_VERSION_1_8_10_1
+		bool "Asterisk 1.8.10.1"
+endchoice

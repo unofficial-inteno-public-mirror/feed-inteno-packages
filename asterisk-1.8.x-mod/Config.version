@@ -1,0 +1,6 @@
+config ASTERISK_VERSION
+	string
+	depends on PACKAGE_asterisk18-mod
+	default "1.8.10.1+iopsys" if ASTERISK_VERSION_1_8_10_1_IOPSYS
+	default "1.8.10.1" if ASTERISK_VERSION_1_8_10_1
+	default "1.8.10.1+iopsys"

@@ -10,14 +10,21 @@ include $(TOPDIR)/rules.mk
 PKG_NAME:=asterisk18-mod
 PKG_VERSION:=1.8.10.1
 
+ifeq ($(CONFIG_ASTERISK_VERSION),"1.8.10.1+iopsys")
 PKG_SOURCE_VERSION:=ffa46ba1d5abf22fa83d0bd06ea56fe8e638dd43
 PKG_SOURCE_PROTO:=git
 PKG_SOURCE_URL:=http://public.inteno.se:/asterisk-1.8.x
-
+else ifeq ($(CONFIG_ASTERISK_VERSION),"1.8.10.1")
+PKG_SOURCE_VERSION:=52f7762a8ceaace5c4a3b27eae86cd0d56609f73
+PKG_SOURCE_PROTO:=git
+PKG_SOURCE_URL:=http://public.inteno.se:/asterisk-1.8.x
+endif
+ifdef PKG_SOURCE_VERSION
 PKG_RELEASE:=$(PKG_SOURCE_VERSION)
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION)-$(PKG_SOURCE_VERSION)-$(PKG_RELEASE).tar.gz
 PKG_SOURCE_SUBDIR:=$(PKG_NAME)-$(PKG_VERSION)
 PKG_BUILD_DIR:=$(BUILD_DIR)/$(PKG_NAME)-$(PKG_VERSION)
+endif
 
 include $(INCLUDE_DIR)/ltqtapi.mk
 include $(INCLUDE_DIR)/package.mk
@@ -46,6 +53,11 @@ $(call Package/asterisk18-mod/Default)
 ifeq ($(CONFIG_PACKAGE_voice-client),y)
   DEPENDS+= +voice-client
 endif
+endef
+
+define Package/asterisk18-mod/config
+	source "$(SOURCE)/Config.version"
+	source "$(SOURCE)/Config.in"
 endef
 
 define Package/asterisk18-mod/description
