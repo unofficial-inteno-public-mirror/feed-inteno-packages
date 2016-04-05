@@ -452,12 +452,131 @@ else
 	OPTIMIZE:=
 endif
 
-ifeq ($(CONFIG_DEBUG),y)
+define Buildasterisk18-modMenuselectTemplate
+ifeq ($$(CONFIG_PACKAGE_asterisk18-mod-$(subst _,-,$(1))),y)
+ifeq ($$(CONFIG_ASTERISK_EMBED),y)
 	MENUSELECT_ARGS+= \
-		--disable CHAN_BRCM
-	MENUSELECT_ARGS+= \
-		--disable CHAN_BRCM_DECT
+		--enable $(shell echo $(1) | tr a-z A-Z)
 endif
+endif
+endef
+
+ifeq ($(CONFIG_ASTERISK_EMBED),y)
+	MENUSELECT_ARGS+= \
+		--disable-category MENUSELECT_APPS
+endif
+ifeq ($(CONFIG_ASTERISK_EMBED),y)
+	MENUSELECT_ARGS+= \
+		--disable-category MENUSELECT_BRIDGES
+endif
+ifeq ($(CONFIG_ASTERISK_EMBED),y)
+ifneq ($(CONFIG_PACKAGE_asterisk18-mod-cdr),y)
+	MENUSELECT_ARGS+= \
+		--disable-category MENUSELECT_CDR
+endif
+endif
+ifeq ($(CONFIG_ASTERISK_EMBED),y)
+	MENUSELECT_ARGS+= \
+		--disable-category MENUSELECT_CHANNELS
+endif
+ifeq ($(CONFIG_ASTERISK_EMBED),y)
+	MENUSELECT_ARGS+= \
+		--disable-category MENUSELECT_CODECS
+endif
+ifeq ($(CONFIG_ASTERISK_EMBED),y)
+	MENUSELECT_ARGS+= \
+		--disable-category MENUSELECT_FORMATS
+endif
+ifeq ($(CONFIG_ASTERISK_EMBED),y)
+	MENUSELECT_ARGS+= \
+		--disable-category MENUSELECT_FUNCS
+endif
+ifeq ($(CONFIG_ASTERISK_EMBED),y)
+	MENUSELECT_ARGS+= \
+		--disable-category MENUSELECT_PBX
+endif
+ifeq ($(CONFIG_ASTERISK_EMBED),y)
+	MENUSELECT_ARGS+= \
+		--disable-category MENUSELECT_RES
+endif
+
+$(eval $(call Buildasterisk18-modMenuselectTemplate,app_alarmreciever))
+$(eval $(call Buildasterisk18-modMenuselectTemplate,app_authenticate))
+$(eval $(call Buildasterisk18-modMenuselectTemplate,app_chanisavail))
+$(eval $(call Buildasterisk18-modMenuselectTemplate,app_chanspy))
+$(eval $(call Buildasterisk18-modMenuselectTemplate,app_directed_pickup))
+$(eval $(call Buildasterisk18-modMenuselectTemplate,app_disa))
+$(eval $(call Buildasterisk18-modMenuselectTemplate,app_exec))
+$(eval $(call Buildasterisk18-modMenuselectTemplate,app_meetme))
+$(eval $(call Buildasterisk18-modMenuselectTemplate,app_minivm))
+$(eval $(call Buildasterisk18-modMenuselectTemplate,app_mixmonitor))
+$(eval $(call Buildasterisk18-modMenuselectTemplate,app_originate))
+$(eval $(call Buildasterisk18-modMenuselectTemplate,app_playtones))
+$(eval $(call Buildasterisk18-modMenuselectTemplate,app_queue))
+$(eval $(call Buildasterisk18-modMenuselectTemplate,app_read))
+$(eval $(call Buildasterisk18-modMenuselectTemplate,app_readexten))
+$(eval $(call Buildasterisk18-modMenuselectTemplate,app_record))
+$(eval $(call Buildasterisk18-modMenuselectTemplate,app_sayunixtime))
+$(eval $(call Buildasterisk18-modMenuselectTemplate,app_senddtmf))
+$(eval $(call Buildasterisk18-modMenuselectTemplate,app_setcallerid))
+$(eval $(call Buildasterisk18-modMenuselectTemplate,app_sms))
+$(eval $(call Buildasterisk18-modMenuselectTemplate,app_softhangup))
+$(eval $(call Buildasterisk18-modMenuselectTemplate,app_stack))
+$(eval $(call Buildasterisk18-modMenuselectTemplate,app_system))
+$(eval $(call Buildasterisk18-modMenuselectTemplate,app_talkdetect))
+$(eval $(call Buildasterisk18-modMenuselectTemplate,app_transfer))
+$(eval $(call Buildasterisk18-modMenuselectTemplate,app_verbose))
+$(eval $(call Buildasterisk18-modMenuselectTemplate,app_waituntil))
+$(eval $(call Buildasterisk18-modMenuselectTemplate,app_while))
+ifeq ($(CONFIG_PACKAGE_asterisk18-mod-chan-brcm),y)
+ifneq ($(CONFIG_ASTERISK_EMBED),y)
+	MENUSELECT_ARGS+= \
+		--enable CHAN_BRCM
+	MENUSELECT_ARGS+= \
+		--enable CHAN_BRCM_DECT
+endif
+endif
+$(eval $(call Buildasterisk18-modMenuselectTemplate,chan_gtalk))
+$(eval $(call Buildasterisk18-modMenuselectTemplate,chan_iax2))
+$(eval $(call Buildasterisk18-modMenuselectTemplate,chan_local))
+$(eval $(call Buildasterisk18-modMenuselectTemplate,chan_mgcp))
+$(eval $(call Buildasterisk18-modMenuselectTemplate,chan_mobile))
+$(eval $(call Buildasterisk18-modMenuselectTemplate,chan_skinny))
+$(eval $(call Buildasterisk18-modMenuselectTemplate,chan_sip))
+$(eval $(call Buildasterisk18-modMenuselectTemplate,codec_a_mu))
+$(eval $(call Buildasterisk18-modMenuselectTemplate,codec_alaw))
+$(eval $(call Buildasterisk18-modMenuselectTemplate,codec_g722))
+$(eval $(call Buildasterisk18-modMenuselectTemplate,codec_g726))
+$(eval $(call Buildasterisk18-modMenuselectTemplate,codec_gsm))
+$(eval $(call Buildasterisk18-modMenuselectTemplate,codec_ilbc))
+$(eval $(call Buildasterisk18-modMenuselectTemplate,codec_ulaw))
+$(eval $(call Buildasterisk18-modMenuselectTemplate,format_g726))
+$(eval $(call Buildasterisk18-modMenuselectTemplate,format_g729))
+$(eval $(call Buildasterisk18-modMenuselectTemplate,format_sln))
+$(eval $(call Buildasterisk18-modMenuselectTemplate,format_sln1))
+$(eval $(call Buildasterisk18-modMenuselectTemplate,func_blacklist))
+$(eval $(call Buildasterisk18-modMenuselectTemplate,func_channel))
+$(eval $(call Buildasterisk18-modMenuselectTemplate,func_cut))
+$(eval $(call Buildasterisk18-modMenuselectTemplate,func_db))
+$(eval $(call Buildasterisk18-modMenuselectTemplate,func_devstate))
+$(eval $(call Buildasterisk18-modMenuselectTemplate,func_extstate))
+$(eval $(call Buildasterisk18-modMenuselectTemplate,func_global))
+$(eval $(call Buildasterisk18-modMenuselectTemplate,func_shell))
+$(eval $(call Buildasterisk18-modMenuselectTemplate,func_uri))
+$(eval $(call Buildasterisk18-modMenuselectTemplate,func_vmcount))
+$(eval $(call Buildasterisk18-modMenuselectTemplate,pbx_ael))
+$(eval $(call Buildasterisk18-modMenuselectTemplate,pbx_spool))
+$(eval $(call Buildasterisk18-modMenuselectTemplate,res_ael_share))
+$(eval $(call Buildasterisk18-modMenuselectTemplate,res_agi))
+$(eval $(call Buildasterisk18-modMenuselectTemplate,res_clioriginate))
+$(eval $(call Buildasterisk18-modMenuselectTemplate,res_crypto))
+$(eval $(call Buildasterisk18-modMenuselectTemplate,res_fax))
+$(eval $(call Buildasterisk18-modMenuselectTemplate,res_fax_spandsp))
+$(eval $(call Buildasterisk18-modMenuselectTemplate,res_musiconhold))
+$(eval $(call Buildasterisk18-modMenuselectTemplate,res_stun))
+$(eval $(call Buildasterisk18-modMenuselectTemplate,res_timing_pthread))
+$(eval $(call Buildasterisk18-modMenuselectTemplate,res_timing_timerfd))
+$(eval $(call Buildasterisk18-modMenuselectTemplate,res_voice))
 
 ifeq ($(CONFIG_ASTERISK_EMBED),y)
 	MENUSELECT_ARGS+= \
