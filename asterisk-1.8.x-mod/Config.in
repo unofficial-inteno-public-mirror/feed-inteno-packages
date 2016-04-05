@@ -10,3 +10,10 @@ choice
 	config ASTERISK_VERSION_1_8_10_1
 		bool "Asterisk 1.8.10.1"
 endchoice
+
+if PACKAGE_asterisk18-mod
+	config ASTERISK_EMBED
+		bool
+		prompt "Embed modules"
+		default n
+endif

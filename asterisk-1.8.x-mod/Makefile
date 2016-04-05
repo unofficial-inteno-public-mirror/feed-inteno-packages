@@ -457,6 +457,9 @@ ifeq ($(CONFIG_DEBUG),y)
 		--disable CHAN_BRCM
 	MENUSELECT_ARGS+= \
 		--disable CHAN_BRCM_DECT
+endif
+
+ifeq ($(CONFIG_ASTERISK_EMBED),y)
 	MENUSELECT_ARGS+= \
 		--enable EMBED_ADDONS
 	MENUSELECT_ARGS+= \
@@ -479,6 +482,10 @@ ifeq ($(CONFIG_DEBUG),y)
 		--enable EMBED_RES
 	MENUSELECT_ARGS+= \
 		--enable EMBED_TEST
+endif
+
+# @todo@ Remove later
+ifeq ($(CONFIG_ASTERISK_EMBED),y)
 	MENUSELECT_ARGS+= \
 		--disable RES_ADSI
 endif
@@ -554,6 +561,7 @@ ifneq ($(CONFIG_PACKAGE_voice-client),y)
 		$(CP) $(PKG_INSTALL_DIR)/etc/asterisk/$$$$f.conf $(1)/etc/asterisk/ ; \
 	done
 endif
+ifneq ($(CONFIG_ASTERISK_EMBED),y)
 	$(INSTALL_DIR) $(1)/usr/lib/asterisk/modules
 	for f in app_dial app_echo app_playback app_macro \
 		res_rtp_asterisk res_rtp_multicast \
@@ -563,6 +571,7 @@ endif
 		func_strings func_timeout func_callerid func_logic; do \
 		$(CP) $(PKG_INSTALL_DIR)/usr/lib/asterisk/modules/$$$$f.so $(1)/usr/lib/asterisk/modules/ ; \
 	done
+endif
 	$(INSTALL_DIR) $(1)/usr/sbin
 	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/sbin/asterisk $(1)/usr/sbin/
 	$(INSTALL_DIR) $(1)/etc/default
@@ -586,10 +595,12 @@ endef
 define Package/asterisk18-mod-voicemail/install
 	$(INSTALL_DIR) $(1)/etc/asterisk
 	$(INSTALL_DATA) $(PKG_INSTALL_DIR)/etc/asterisk/voicemail.conf $(1)/etc/asterisk/
+ifneq ($(CONFIG_ASTERISK_EMBED),y)
 	$(INSTALL_DIR) $(1)/usr/lib/asterisk/modules
 	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/lib/asterisk/modules/*voicemail.so $(1)/usr/lib/asterisk/modules/
 	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/lib/asterisk/modules/res_adsi.so $(1)/usr/lib/asterisk/modules/
 	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/lib/asterisk/modules/res_smdi.so $(1)/usr/lib/asterisk/modules/
+endif
 	$(INSTALL_DIR) $(1)/usr/lib/asterisk/sounds/
 	$(CP) $(PKG_INSTALL_DIR)/usr/lib/asterisk/sounds/en/vm-*.gsm $(1)/usr/lib/asterisk/sounds/
 endef
@@ -601,8 +612,10 @@ endef
 define Package/asterisk18-mod-app-meetme/install
 	$(INSTALL_DIR) $(1)/etc/asterisk
 	$(INSTALL_DATA) $(PKG_INSTALL_DIR)/etc/asterisk/meetme.conf $(1)/etc/asterisk/
+ifneq ($(CONFIG_ASTERISK_EMBED),y)
 	$(INSTALL_DIR) $(1)/usr/lib/asterisk/modules
 	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/lib/asterisk/modules/app_meetme.so $(1)/usr/lib/asterisk/modules/
+endif
 	$(INSTALL_DIR) $(1)/usr/lib/asterisk/sounds/
 	$(CP) $(PKG_INSTALL_DIR)/usr/lib/asterisk/sounds/en/conf-*.gsm $(1)/usr/lib/asterisk/sounds/
 endef
@@ -629,28 +642,36 @@ define Package/asterisk18-mod-chan-iax2/install
 	$(INSTALL_DIR) $(1)/etc/asterisk
 	$(INSTALL_DATA) $(PKG_INSTALL_DIR)/etc/asterisk/iax.conf $(1)/etc/asterisk/
 	$(INSTALL_DATA) $(PKG_INSTALL_DIR)/etc/asterisk/iaxprov.conf $(1)/etc/asterisk/
+ifneq ($(CONFIG_ASTERISK_EMBED),y)
 	$(INSTALL_DIR) $(1)/usr/lib/asterisk/modules
 	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/lib/asterisk/modules/chan_iax2.so $(1)/usr/lib/asterisk/modules/
+endif
 endef
 
 define Package/asterisk18-mod-cdr/install
 	$(INSTALL_DIR) $(1)/etc/asterisk
 	$(INSTALL_DATA) $(PKG_INSTALL_DIR)/etc/asterisk/cdr*.conf $(1)/etc/asterisk/
+ifneq ($(CONFIG_ASTERISK_EMBED),y)
 	$(INSTALL_DIR) $(1)/usr/lib/asterisk/modules
 	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/lib/asterisk/modules/*cdr*.so $(1)/usr/lib/asterisk/modules/
+endif
 endef
 
 define Package/asterisk18-mod-res-musiconhold/install
 	$(INSTALL_DIR) $(1)/etc/asterisk
 	$(INSTALL_DATA) $(PKG_INSTALL_DIR)/etc/asterisk/musiconhold.conf $(1)/etc/asterisk/
+ifneq ($(CONFIG_ASTERISK_EMBED),y)
 	$(INSTALL_DIR) $(1)/usr/lib/asterisk/modules
 	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/lib/asterisk/modules/res_musiconhold.so $(1)/usr/lib/asterisk/modules/
+endif
 endef
 
+ifneq ($(CONFIG_ASTERISK_EMBED),y)
 define Package/asterisk18-mod-res-voice/install
 	$(INSTALL_DIR) $(1)/usr/lib/asterisk/modules
 	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/lib/asterisk/modules/res_voice.so $(1)/usr/lib/asterisk/modules/
 endef
+endif
 
 define Package/asterisk18-mod-chan-gtalk/conffiles
 /etc/asterisk/gtalk.conf
@@ -661,9 +682,11 @@ define Package/asterisk18-mod-chan-gtalk/install
 	$(INSTALL_DIR) $(1)/etc/asterisk
 	$(INSTALL_DATA) $(PKG_INSTALL_DIR)/etc/asterisk/gtalk.conf $(1)/etc/asterisk/
 	$(INSTALL_DATA) $(PKG_INSTALL_DIR)/etc/asterisk/jabber.conf $(1)/etc/asterisk/
+ifneq ($(CONFIG_ASTERISK_EMBED),y)
 	$(INSTALL_DIR) $(1)/usr/lib/asterisk/modules
 	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/lib/asterisk/modules/chan_gtalk.so $(1)/usr/lib/asterisk/modules/
 	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/lib/asterisk/modules/res_jabber.so $(1)/usr/lib/asterisk/modules/
+endif
 endef
 
 define Package/asterisk18-mod-chan-mobile/conffiles
@@ -673,14 +696,18 @@ endef
 define Package/asterisk18-mod-chan-mobile/install
 	$(INSTALL_DIR) $(1)/etc/asterisk
 	$(INSTALL_DATA) $(PKG_INSTALL_DIR)/etc/asterisk/chan_mobile.conf $(1)/etc/asterisk/
+ifneq ($(CONFIG_ASTERISK_EMBED),y)
 	$(INSTALL_DIR) $(1)/usr/lib/asterisk/modules
 	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/lib/asterisk/modules/chan_mobile.so $(1)/usr/lib/asterisk/modules/
+endif
 endef
 
+ifneq ($(CONFIG_ASTERISK_EMBED),y)
 define Package/asterisk18-mod-res-timing-timerfd/install
 	$(INSTALL_DIR) $(1)/usr/lib/asterisk/modules
 	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/lib/asterisk/modules/res_timing_timerfd.so $(1)/usr/lib/asterisk/modules/
 endef
+endif
 
 define Package/asterisk18-mod-res-timing-pthread/install
 	$(INSTALL_DIR) $(1)/usr/lib/asterisk/modules
@@ -694,14 +721,18 @@ endef
 define Package/asterisk18-mod-res-fax/install
 	$(INSTALL_DIR) $(1)/etc/asterisk
 	$(INSTALL_DATA) $(PKG_INSTALL_DIR)/etc/asterisk/res_fax.conf $(1)/etc/asterisk/
+ifneq ($(CONFIG_ASTERISK_EMBED),y)
 	$(INSTALL_DIR) $(1)/usr/lib/asterisk/modules
 	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/lib/asterisk/modules/res_fax.so $(1)/usr/lib/asterisk/modules/
+endif
 endef
 
 define Package/asterisk18-mod-res-fax-spandsp/install
 	$(INSTALL_DIR) $(1)/etc/asterisk
+ifneq ($(CONFIG_ASTERISK_EMBED),y)
 	$(INSTALL_DIR) $(1)/usr/lib/asterisk/modules
 	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/lib/asterisk/modules/res_fax_spandsp.so $(1)/usr/lib/asterisk/modules/
+endif
 endef
 
 define Package/asterisk18-mod-chan-mgcp/conffiles
@@ -737,8 +768,10 @@ define Package/asterisk18-mod-chan-brcm/install
 ifneq ($(CONFIG_PACKAGE_voice-client),y)
 	$(INSTALL_DATA) $(PKG_INSTALL_DIR)/etc/asterisk/brcm.conf $(1)/etc/asterisk/
 endif
+ifneq ($(CONFIG_ASTERISK_EMBED),y)
 	$(INSTALL_DIR) $(1)/usr/lib/asterisk/modules
 	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/lib/asterisk/modules/chan_brcm.so $(1)/usr/lib/asterisk/modules/
+endif
 endef
 
 ifneq ($(CONFIG_PACKAGE_voice-client),y)
@@ -754,25 +787,33 @@ ifneq ($(CONFIG_PACKAGE_voice-client),y)
 	$(INSTALL_DATA) $(PKG_INSTALL_DIR)/etc/asterisk/sip.conf $(1)/etc/asterisk/
 	$(INSTALL_DATA) $(PKG_INSTALL_DIR)/etc/asterisk/sip_notify.conf $(1)/etc/asterisk/
 endif
+ifneq ($(CONFIG_ASTERISK_EMBED),y)
 	$(INSTALL_DIR) $(1)/usr/lib/asterisk/modules
 	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/lib/asterisk/modules/chan_sip.so $(1)/usr/lib/asterisk/modules/
+endif
 endef
 
+ifneq ($(CONFIG_ASTERISK_EMBED),y)
 define Package/asterisk18-mod-curl/install
 	$(INSTALL_DIR) $(1)/usr/lib/asterisk/modules
 	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/lib/asterisk/modules/func_curl.so $(1)/usr/lib/asterisk/modules/
 	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/lib/asterisk/modules/res_curl.so $(1)/usr/lib/asterisk/modules/
 endef
+endif
 
+ifneq ($(CONFIG_ASTERISK_EMBED),y)
 define Package/asterisk18-mod-app-transfer/install
 	$(INSTALL_DIR) $(1)/usr/lib/asterisk/modules
 	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/lib/asterisk/modules/app_transfer.so $(1)/usr/lib/asterisk/modules/
 endef
+endif
 
+ifneq ($(CONFIG_ASTERISK_EMBED),y)
 define Package/asterisk18-mod-app-softhangup/install
 	$(INSTALL_DIR) $(1)/usr/lib/asterisk/modules
 	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/lib/asterisk/modules/app_softhangup.so $(1)/usr/lib/asterisk/modules/
 endef
+endif
 
 define Package/asterisk18-mod-mysql/conffiles
 /etc/asterisk/app_mysql.conf
@@ -785,10 +826,12 @@ define Package/asterisk18-mod-mysql/install
 	$(INSTALL_DATA) $(PKG_INSTALL_DIR)/etc/asterisk/app_mysql.conf $(1)/etc/asterisk/
 	$(INSTALL_DATA) $(PKG_INSTALL_DIR)/etc/asterisk/res_config_mysql.conf $(1)/etc/asterisk/
 	$(INSTALL_DATA) $(PKG_INSTALL_DIR)/etc/asterisk/cdr_mysql.conf $(1)/etc/asterisk/
+ifneq ($(CONFIG_ASTERISK_EMBED),y)
 	$(INSTALL_DIR) $(1)/usr/lib/asterisk/modules
 	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/lib/asterisk/modules/app_mysql.so $(1)/usr/lib/asterisk/modules/
 	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/lib/asterisk/modules/cdr_mysql.so $(1)/usr/lib/asterisk/modules/
 	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/lib/asterisk/modules/res_config_mysql.so $(1)/usr/lib/asterisk/modules/
+endif
 endef
 
 define Package/asterisk18-mod-chan-lantiq/conffiles
@@ -799,23 +842,31 @@ define Package/asterisk18-mod-chan-lantiq/install
 	$(INSTALL_DIR) $(1)/usr/lib/asterisk/modules
 	$(INSTALL_DIR) $(1)/etc/asterisk
 	$(INSTALL_DATA) $(PKG_INSTALL_DIR)/etc/asterisk/lantiq.conf $(1)/etc/asterisk/
+ifneq ($(CONFIG_ASTERISK_EMBED),y)
 	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/lib/asterisk/modules/chan_lantiq.so $(1)/usr/lib/asterisk/modules/
+endif
 endef
 
+ifneq ($(CONFIG_ASTERISK_EMBED),y)
 define Package/asterisk18-mod-res-srtp/install
 	$(INSTALL_DIR) $(1)/usr/lib/asterisk/modules
 	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/lib/asterisk/modules/res_srtp.so $(1)/usr/lib/asterisk/modules/
 endef
+endif
 
+ifneq ($(CONFIG_ASTERISK_EMBED),y)
 define Package/asterisk18-mod-res-stun/install
 	$(INSTALL_DIR) $(1)/usr/lib/asterisk/modules
 	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/lib/asterisk/modules/res_stun_monitor.so $(1)/usr/lib/asterisk/modules/
 endef
+endif
 
+ifneq ($(CONFIG_ASTERISK_EMBED),y)
 define Package/asterisk18-mod-app-queue/install
 	$(INSTALL_DIR) $(1)/usr/lib/asterisk/modules
 	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/lib/asterisk/modules/app_queue.so $(1)/usr/lib/asterisk/modules/
 endef
+endif
 
 define Buildasterisk18-modModuleTemplate
 
@@ -830,10 +881,12 @@ define Buildasterisk18-modModuleTemplate
     This package provides support $(3) in Asterisk.
   endef
 
+  ifneq ($(CONFIG_ASTERISK_EMBED),y)
   define Package/asterisk18-mod-$(subst _,-,$(1))/install
 	$(INSTALL_DIR) $$(1)/usr/lib/asterisk/modules
 	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/lib/asterisk/modules/$(1).so $$(1)/usr/lib/asterisk/modules/
   endef
+  endif
 
   $$(eval $$(call BuildPackage,asterisk18-mod-$(subst _,-,$(1))))
 endef
