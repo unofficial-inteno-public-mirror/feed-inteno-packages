@@ -561,7 +561,7 @@ $(eval $(call Build/asterisk18-mod/Template/Menuselect/Module,CODECS,codec_ulaw)
 $(eval $(call Build/asterisk18-mod/Template/Menuselect/Module,FORMATS,format_g726))
 $(eval $(call Build/asterisk18-mod/Template/Menuselect/Module,FORMATS,format_g729))
 $(eval $(call Build/asterisk18-mod/Template/Menuselect/Module,FORMATS,format_sln))
-$(eval $(call Build/asterisk18-mod/Template/Menuselect/Module,FORMATS,format_sln1))
+$(eval $(call Build/asterisk18-mod/Template/Menuselect/Module,FORMATS,format_sln16))
 
 $(eval $(call Build/asterisk18-mod/Template/Menuselect/Module,FUNCS,func_blacklist))
 $(eval $(call Build/asterisk18-mod/Template/Menuselect/Module,FUNCS,func_channel))
