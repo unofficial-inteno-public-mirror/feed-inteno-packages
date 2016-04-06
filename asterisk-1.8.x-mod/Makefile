@@ -384,6 +384,8 @@ else
 	--without-srtp
 endif
 
+CONFIG_PACKAGE_asterisk18-mod-res-stun-monitor = $(CONFIG_PACKAGE_asterisk18-mod-res-stun)
+
 ifeq ($(CONFIG_TARGET_IBOARDID),"D301")
   EXTRA_CFLAGS += -DNTR_SUPPORT
 endif
