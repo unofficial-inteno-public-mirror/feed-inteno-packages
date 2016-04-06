@@ -1172,3 +1172,4 @@ $(eval $(call Buildasterisk18-modModuleTemplate,app_record,Record sound file,to 
 $(eval $(call Buildasterisk18-modModuleTemplate,app_cdr,?,?))
 $(eval $(call Buildasterisk18-modModuleTemplate,app_forkcdr,?,?))
 $(eval $(call Buildasterisk18-modModuleTemplate,func_cdr,?,?))
+$(eval $(call Buildasterisk18-modModuleTemplate,chan_local,?,?))
