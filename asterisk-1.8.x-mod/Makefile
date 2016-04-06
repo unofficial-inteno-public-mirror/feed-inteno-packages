@@ -613,10 +613,27 @@ endef
 define Build/Configure
 	-rm $(PKG_BUILD_DIR)/menuselect.makeopts
 	$(call Build/Configure/Default,,$(SITE_VARS))
+	$(MAKE) -C "$(PKG_BUILD_DIR)" menuselect.makeopts
 	if test -n "$(MENUSELECT_ARGS)" ; then \
-		$(MAKE) -C "$(PKG_BUILD_DIR)" menuselect.makeopts ; \
 		(cd $(PKG_BUILD_DIR) && ./menuselect/menuselect $(MENUSELECT_ARGS)) ; \
 	fi
+	for category in $(MENUSELECT_CATEGORIES) ; do \
+		modules=`grep MENUSELECT_DEPSFAILED=MENUSELECT_$$$${category}= $(PKG_BUILD_DIR)/menuselect.makeopts | cut -d= -f3` ; \
+		for module in $$$${modules} ; do \
+			for _module in $(MENUSELECT_MODULES) ; do \
+				if test "$$$${module}" = "$$$${_module}" ; then \
+					dependancies=`grep MENUSELECT_DEPENDS_$$$${module} $(PKG_BUILD_DIR)/menuselect.makedeps | cut -d= -f2` ; \
+					echo "menuselect: MENUSELECT_$$$${category}: $$$${module}: *** selection failed; dependancies: $$$${dependancies}" ; \
+					for dependancy in $$$${dependancies} ; do \
+						if ! grep $$$${dependancy}=1 $(PKG_BUILD_DIR)/build_tools/menuselect-deps >/dev/null ; then \
+							echo "menuselect: MENUSELECT_$$$${category}: $$$${module}: $$$${dependancy}: *** dependancy failed" ; \
+						fi ; \
+					done ; \
+					exit 1 ; \
+				fi ; \
+			done ; \
+		done ; \
+	done
 endef
 
 define Build/Compile
