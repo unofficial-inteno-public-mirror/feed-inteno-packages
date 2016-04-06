@@ -264,7 +264,7 @@ endef
 define Package/asterisk18-mod-chan-brcm
 $(call Package/asterisk18-mod/Default)
   TITLE:=Broadcom channel support
-  DEPENDS:= asterisk18-mod
+  DEPENDS:= asterisk18-mod +asterisk18-mod-chan-local
 endef
 
 define Package/asterisk18-mod-chan-brcm/description
@@ -275,7 +275,7 @@ endef
 define Package/asterisk18-mod-chan-sip
 $(call Package/asterisk18-mod/Default)
   TITLE:=SIP channel support
-  DEPENDS:= asterisk18-mod
+  DEPENDS:= asterisk18-mod +asterisk18-mod-chan-local
 endef
 
 define Package/asterisk18-mod-chan-sip/description
