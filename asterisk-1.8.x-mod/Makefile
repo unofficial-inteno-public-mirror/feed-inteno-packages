@@ -1117,3 +1117,6 @@ $(eval $(call Buildasterisk18-modModuleTemplate,res_clioriginate,Calls via CLI,O
 $(eval $(call Buildasterisk18-modModuleTemplate,app_mixmonitor,Record a call and mix the audio,record a call and mix the audio during the recording))
 $(eval $(call Buildasterisk18-modModuleTemplate,app_playtones,Playtones application,play a tone list))
 $(eval $(call Buildasterisk18-modModuleTemplate,app_record,Record sound file,to record a sound file))
+$(eval $(call Buildasterisk18-modModuleTemplate,app_cdr,?,?))
+$(eval $(call Buildasterisk18-modModuleTemplate,app_forkcdr,?,?))
+$(eval $(call Buildasterisk18-modModuleTemplate,func_cdr,?,?))
