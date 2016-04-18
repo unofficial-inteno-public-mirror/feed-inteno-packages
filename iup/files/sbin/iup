@@ -126,9 +126,14 @@ handle_provisioning() {
 		  if [ ${url%%:*} == "tftp" ]; then
 			tftpfile=${url#*\/\/}
 			host=${tftpfile%%\/*}
+			port=${host#*:}
+			host=${host%%:*}
+			if [-z ${port} ]; then
+				port=69
+			fi
 			tftpfile=${tftpfile#*\/}
 
-			/usr/bin/tftp -l $IUPCONFFILES -r "$tftpfile" -g "$host"
+			/usr/bin/tftp -l $IUPCONFFILES -r "$tftpfile" -g "$host" "$port"
 		  else
 			get_image "$url" "cat" > $IUPCONFFILES
 		  fi
