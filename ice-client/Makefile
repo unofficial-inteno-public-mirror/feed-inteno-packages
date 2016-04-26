@@ -940,7 +940,7 @@ endef
 define Package/ice-client-bcmspeedmgr
   $(call Package/ice-client/Default)
   TITLE:=bcmspeedmgr
-  DEPENDS+= 
+  DEPENDS+=lrt
 endef
 
 define Package/ice-client-bcmspeedmgr/description
