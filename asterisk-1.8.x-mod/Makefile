@@ -832,6 +832,7 @@ define Package/asterisk18-mod-chan-iax2/conffiles
 /etc/asterisk/iaxprov.conf
 endef
 
+ifneq ($(CONFIG_PACKAGE_voice-client),y)
 define Package/asterisk18-mod-cdr/conffiles
 /etc/asterisk/cdr.conf
 /etc/asterisk/cdr_custom.conf
@@ -840,6 +841,7 @@ define Package/asterisk18-mod-cdr/conffiles
 /etc/asterisk/cdr_pgsql.conf
 /etc/asterisk/cdr_tds.conf
 endef
+endif
 
 define Package/asterisk18-mod-res-musiconhold/conffiles
 /etc/asterisk/musiconhold.conf
