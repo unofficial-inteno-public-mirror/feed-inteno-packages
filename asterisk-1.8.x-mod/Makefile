@@ -576,10 +576,18 @@ ifneq ($(CONFIG_ASTERISK_EMBED),y)
 	MENUSELECT_CHANNELS+= \
 		chan_brcm \
 		chan_brcm_dect \
+ifeq ($(CONFIG_ASTERISK_CHAN_BRCM),y)
 	MENUSELECT_ARGS+= \
 		--enable CHAN_BRCM
 	MENUSELECT_ARGS+= \
 		--enable CHAN_BRCM_DECT
+endif
+else
+ifeq ($(CONFIG_ASTERISK_CHAN_BRCM),y)
+	MENUSELECT_CHANNELS+= \
+		chan_brcm
+	MENUSELECT_ARGS+= \
+		--enable CHAN_BRCM
 endif
 endif
 $(eval $(call Build/asterisk18-mod/Template/Menuselect/Module,CHANNELS,chan_gtalk))
