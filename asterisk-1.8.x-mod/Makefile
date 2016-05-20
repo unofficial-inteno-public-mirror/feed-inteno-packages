@@ -670,7 +670,7 @@ endif
 endef
 
 define Build/Configure
-	-rm $(PKG_BUILD_DIR)/menuselect.makeopts
+	-rm -f $(PKG_BUILD_DIR)/menuselect.makeopts
 	$(call Build/Configure/Default,,$(SITE_VARS))
 	$(MAKE) -C "$(PKG_BUILD_DIR)" menuselect.makeopts
 	if test -n "$(MENUSELECT_ARGS)" ; then \
