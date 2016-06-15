@@ -24,7 +24,7 @@ LDFLAGS+= \
 
 define Package/uci-diff
 	CATEGORY:=Utilities
-	DEPENDS:=+libuci +libubox +ubus +ljson-c +lblobmsg_json
+	DEPENDS:=+libuci +libubox +ubus +libjson-c +libblobmsg-json
 	TITLE:=uci-diff
 endef
 
