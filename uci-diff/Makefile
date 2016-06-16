@@ -35,6 +35,7 @@ endef
 define Package/uci-diff/install
 	$(CP) ./files/* $(1)/
 	$(INSTALL_DIR) $(1)/sbin
+	$(INSTALL_BIN) $(PKG_BUILD_DIR)/uci-diff $(1)/sbin/
 endef
 
 $(eval $(call BuildPackage,uci-diff))
