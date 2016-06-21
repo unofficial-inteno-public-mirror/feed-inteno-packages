@@ -17,6 +17,7 @@ PKG_SOURCE_SUBDIR:=$(PKG_NAME)-$(PKG_VERSION)
 PKG_BUILD_DIR:=$(BUILD_DIR)/$(PKG_NAME)-$(PKG_VERSION)
 
 include $(INCLUDE_DIR)/package.mk
+include $(INCLUDE_DIR)/host-build.mk
 
 LDFLAGS+= \
 	-Wl,-rpath-link=$(STAGING_DIR)/usr/lib \
@@ -39,3 +40,4 @@ define Package/uci-diff/install
 endef
 
 $(eval $(call BuildPackage,uci-diff))
+$(eval $(call HostBuild))
