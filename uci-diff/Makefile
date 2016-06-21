@@ -39,5 +39,13 @@ define Package/uci-diff/install
 	$(INSTALL_BIN) $(PKG_BUILD_DIR)/uci-diff $(1)/sbin/
 endef
 
+define Host/Compile
+	+$(MAKE) $(HOST_JOBS) -C $(HOST_BUILD_DIR) CC="$(HOSTCC)" all
+endef
+
+define Host/Install
+	$(INSTALL_BIN) $(HOST_BUILD_DIR)/uci-diff $(STAGING_DIR_HOST)/bin/uci-diff
+endef
+
 $(eval $(call BuildPackage,uci-diff))
 $(eval $(call HostBuild))
