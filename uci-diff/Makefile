@@ -4,6 +4,8 @@
 
 include $(TOPDIR)/rules.mk
 include $(INCLUDE_DIR)/kernel.mk
+include $(INCLUDE_DIR)/version.mk
+include $(INCLUDE_DIR)/feeds.mk
 
 PKG_NAME:=uci-diff
 PKG_VERSION:=1
@@ -39,11 +41,12 @@ define Package/uci-diff/install
 	$(INSTALL_BIN) $(PKG_BUILD_DIR)/uci-diff $(1)/sbin/
 endef
 
-define Host/Compile
-	+$(MAKE) $(HOST_JOBS) -C $(HOST_BUILD_DIR) CC="$(HOSTCC)" all
-endef
+#define Host/Compile
+#	$(MAKE) -C $(HOST_BUILD_DIR) CC="$(HOSTCC)" all
+#endef
 
 define Host/Install
+	$(INSTALL_DIR) $(1)/bin
 	$(INSTALL_BIN) $(HOST_BUILD_DIR)/uci-diff $(STAGING_DIR_HOST)/bin/uci-diff
 endef
 
