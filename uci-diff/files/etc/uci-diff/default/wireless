@@ -1,0 +1,43 @@
+{"wireless": {
+    "wifi-device": {
+        "type": "broadcom",
+        "country": "EU/13",
+        "band": "a",
+        "bandwidth": "80",
+        "hwmode": "11ac",
+        "channel": "auto",
+        "scantimer": "0",
+        "wmm": "1",
+        "wmm_noack": "0",
+        "wmm_apsd": "1",
+        "txpower": "100",
+        "rateset": "default",
+        "frag": "2346",
+        "rts": "2347",
+        "dtim_period": "1",
+        "beacon_int": "100",
+        "rxchainps": "0",
+        "rxchainps_qt": "10",
+        "rxchainps_pps": "10",
+        "rifs": "0",
+        "rifs_advert": "0",
+        "maxassoc": "32",
+        "doth": "1",
+        "dfsc": "1",
+        "disabled": "1"
+    },
+    "wifi-iface": {
+        "device": "wl0",
+        "network": "lan",
+        "mode": "ap",
+        "ssid": "Inteno-4BC8",
+        "encryption": "mixed-psk",
+        "cipher": "auto",
+        "key": "1234567890",
+        "gtk_rekey": "3600",
+        "macfilter": "0",
+        "wps_pbc": "1",
+        "wmf_bss_enable": "1",
+        "bss_max": "16"
+    }
+}}
