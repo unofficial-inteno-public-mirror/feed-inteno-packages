@@ -8,7 +8,7 @@ include $(INCLUDE_DIR)/kernel.mk
 PKG_NAME:=uci-diff
 PKG_VERSION:=1
 
-PKG_SOURCE_VERSION:=92988d82483e8b8ca09e6207e9aba85bda71cc18
+PKG_SOURCE_VERSION:=aed64062ac44010b6d7335a248c7cdeb922bea13
 PKG_SOURCE_PROTO:=git
 PKG_SOURCE_URL:=git@private.inteno.se:uci-diff
 
