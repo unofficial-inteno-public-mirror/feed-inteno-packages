@@ -8,7 +8,7 @@ include $(INCLUDE_DIR)/kernel.mk
 PKG_NAME:=uci-diff
 PKG_VERSION:=1.0
 
-PKG_SOURCE_VERSION:=aed64062ac44010b6d7335a248c7cdeb922bea13
+PKG_SOURCE_VERSION:=aa1703d98e3a821534d3db3d60b92cb9e4dca344
 PKG_SOURCE_PROTO:=git
 PKG_SOURCE_URL:=git@private.inteno.se:/uci-diff
 
@@ -20,7 +20,7 @@ include $(INCLUDE_DIR)/package.mk
 
 define Package/uci-diff
 	CATEGORY:=Utilities
-	DEPENDS:=+libuci +libubox +ubus +libjson-c +libblobmsg-json
+	DEPENDS:=+libc +libuci +libubox +ubus +libjson-c +libblobmsg-json
 	TITLE:=uci-diff
 endef
 
