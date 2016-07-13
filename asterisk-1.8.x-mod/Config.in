@@ -16,6 +16,10 @@ if PACKAGE_asterisk18-mod
 		bool
 		prompt "Embed modules"
 		default n
+	config ASTERISK_LOADABLE_MODULES
+		bool
+		prompt "Loadable modules"
+		default y
 	config ASTERISK_CHAN_BRCM
 		bool
 		prompt "Support the BRCM channel type"
