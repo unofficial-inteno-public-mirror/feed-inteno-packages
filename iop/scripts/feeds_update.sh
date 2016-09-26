@@ -25,11 +25,6 @@ function feeds_update {
 	./scripts/feeds update
     fi
 
-    # replace core packages with iopsys versions
-    if [ $override == 1 ]; then
-	./scripts/feeds install -f -p feed_inteno_openwrt -a
-    fi
-
     # targets need to be installed explicitly
     ./scripts/feeds install -p feed_inteno_targets iopsys-brcm63xx-mips
     ./scripts/feeds install -p feed_inteno_targets iopsys-brcm63xx-arm
