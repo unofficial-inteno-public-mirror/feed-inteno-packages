@@ -83,6 +83,7 @@ CONFIGURE_ARGS+= \
 	--without-ads \
 	--without-ldap \
 	--enable-largefile \
+	--disable-cups \
 	--with-configdir=/etc/samba \
 	--with-libiconv=$(ICONV_PREFIX) \
 	--with-privatedir=/etc/samba

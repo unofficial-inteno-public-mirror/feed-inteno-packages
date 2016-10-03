@@ -155,6 +155,7 @@ define Build/Compile
 			--with-privatedir=/etc/samba2 \
 			--with-readline=no \
 			--with-syslog \
+			--disable-cups \
 	);
 	$(MAKE) -C $(PKG_BUILD_DIR)/source \
 		$(TARGET_CONFIGURE_OPTS) \
