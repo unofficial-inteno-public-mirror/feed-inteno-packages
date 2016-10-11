@@ -6,9 +6,9 @@ include $(TOPDIR)/rules.mk
 include $(INCLUDE_DIR)/kernel.mk
 
 PKG_NAME:=questd
-PKG_VERSION:=3.1.31
+PKG_VERSION:=4.0.0
 
-PKG_SOURCE_VERSION:=2a5340fc5cc501c6d57e127c5533c65e8eeb6018
+PKG_SOURCE_VERSION:=15bfdbb2f5702ba03e524e46f412d67548c838b5
 PKG_SOURCE_PROTO:=git
 PKG_SOURCE_URL:=http://public.inteno.se:/questd
 
@@ -26,7 +26,13 @@ QUESTD_CFLAGS:=-DIOPSYS_BROADCOM
 else ifeq ($(CONFIG_TARGET_iopsys_linksys),y)
 QUESTD_CFLAGS:=-DIOPSYS_MARVELL
 else ifeq ($(CONFIG_TARGET_lantiq_xrx500),y)
+<<<<<<< 63da9fc1ba0a934d1ab1055d7edbdf752ed69b20
 QUESTD_CFLAGS:=-DIOPSYS_LANTIQ
+=======
+QUESTD_CLFAGS:=-DIOPSYS_LANTIQ
+else ifeq ($(CONFIG_TARGET_iopsys_ramips_ex400),y)
+QUESTD_CLFAGS:=-DIOPSYS_MEDIATEK
+>>>>>>> questd: 4.0.0
 else
 $(info (UNEXPECTED CONFIG TARGET))
 endif
@@ -50,11 +56,16 @@ define Package/questd/install
 	$(INSTALL_DIR) $(1)/sbin
 	$(INSTALL_BIN) $(PKG_BUILD_DIR)/questd $(1)/sbin/
 	$(INSTALL_BIN) $(PKG_BUILD_DIR)/wificontrol $(1)/sbin/
+<<<<<<< b038a6c98bc6e30367887b5066fb2d8ff239094a
 	$(INSTALL_DIR) $(1)/usr/bin
 	$(INSTALL_BIN) $(PKG_BUILD_DIR)/netcheck $(1)/usr/bin/
 	$(INSTALL_DIR) $(1)/usr/libexec/rpcd
 	$(INSTALL_BIN) $(PKG_BUILD_DIR)/router.sh $(1)/usr/libexec/rpcd/router
 	#$(INSTALL_BIN) $(PKG_BUILD_DIR)/wps.sh $(1)/usr/libexec/rpcd/wps
+=======
+	$(INSTALL_DIR) $(1)/usr/libexec/rpcd
+	$(INSTALL_BIN) $(PKG_BUILD_DIR)/led.internet.sh $(1)/usr/libexec/rpcd/led.internet
+>>>>>>> questd: 4.0.0
 endef
 
 $(eval $(call BuildPackage,questd))
