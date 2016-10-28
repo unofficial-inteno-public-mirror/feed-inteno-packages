@@ -2,7 +2,7 @@ include $(TOPDIR)/rules.mk
 
 PKG_NAME:=gigaset-elements
 
-PKG_VERSION:=2.3.0
+PKG_VERSION:=2.4.2
 # PKG_RELEASE=$(PKG_SOURCE_VERSION)
 
 PKG_GIGASET_ELEMENTS_SRC_URL ?= git@public.inteno.se:gigaset-elements.git
@@ -39,7 +39,8 @@ endef
 
 
 define Package/gigaset-elements/install
-	$(CP) -r $(PKG_BUILD_DIR)/sysroot/* $(1)/
+	$(CP) -r $(PKG_BUILD_DIR)/sysroot_common/* $(1)/
+	$(CP) -r $(PKG_BUILD_DIR)/sysroot_$(CONFIG_ARCH)/* $(1)/
 endef
 
 
