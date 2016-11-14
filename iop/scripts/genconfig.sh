@@ -165,7 +165,7 @@ function genconfig {
 	{
 		if [ $DEVELOPER -eq 1 ]; then
 			if [ ! -d "$CUSTPATH" ]; then
-			git clone "$CUSTREPO" "$CUSTPATH"
+			git clone -b "reidr-new-format" "$CUSTREPO" "$CUSTPATH"
 			elif [ $IMPORT -eq 1 ]; then
 			cd $CUSTPATH
 			v "git pull"
