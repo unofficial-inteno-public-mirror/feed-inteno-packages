@@ -8,7 +8,7 @@ include $(INCLUDE_DIR)/kernel.mk
 PKG_NAME:=questd
 PKG_VERSION:=4.0.0
 
-PKG_SOURCE_VERSION:=bb7378478269e825e29503a4971843c142ca4e03
+PKG_SOURCE_VERSION:=e56b75f0e97aa13e54a4929868427461301be29a
 PKG_SOURCE_PROTO:=git
 PKG_SOURCE_URL:=http://public.inteno.se:/questd
 
@@ -56,16 +56,11 @@ define Package/questd/install
 	$(INSTALL_DIR) $(1)/sbin
 	$(INSTALL_BIN) $(PKG_BUILD_DIR)/questd $(1)/sbin/
 	$(INSTALL_BIN) $(PKG_BUILD_DIR)/wificontrol $(1)/sbin/
-<<<<<<< b038a6c98bc6e30367887b5066fb2d8ff239094a
 	$(INSTALL_DIR) $(1)/usr/bin
 	$(INSTALL_BIN) $(PKG_BUILD_DIR)/netcheck $(1)/usr/bin/
 	$(INSTALL_DIR) $(1)/usr/libexec/rpcd
 	$(INSTALL_BIN) $(PKG_BUILD_DIR)/router.sh $(1)/usr/libexec/rpcd/router
 	#$(INSTALL_BIN) $(PKG_BUILD_DIR)/wps.sh $(1)/usr/libexec/rpcd/wps
-=======
-	$(INSTALL_DIR) $(1)/usr/libexec/rpcd
-	$(INSTALL_BIN) $(PKG_BUILD_DIR)/led.internet.sh $(1)/usr/libexec/rpcd/led.internet
->>>>>>> questd: 4.0.0
 endef
 
 $(eval $(call BuildPackage,questd))
