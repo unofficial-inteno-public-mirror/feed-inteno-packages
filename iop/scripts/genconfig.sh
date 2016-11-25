@@ -81,7 +81,7 @@ function genconfig {
 
 	usage() {
 		echo
-		echo 1>&2 "Usage: $0 [ OPTIONS ] [ Customer ] < Board_Type >"
+		echo 1>&2 "Usage: $0 [ OPTIONS ] < Board_Type > [ Customer ]"
 		echo
 		echo -e "  -c|--clean\tRemove all files under ./files and import from config "
 		echo -e "  -v|--verbose\tVerbose"
@@ -165,7 +165,7 @@ function genconfig {
 	{
 		if [ $DEVELOPER -eq 1 ]; then
 			if [ ! -d "$CUSTPATH" ]; then
-			git clone -b "reidr-new-format" "$CUSTREPO" "$CUSTPATH"
+			git clone "$CUSTREPO" "$CUSTPATH"
 			elif [ $IMPORT -eq 1 ]; then
 			cd $CUSTPATH
 			v "git pull"
@@ -184,14 +184,8 @@ function genconfig {
 
 	create_and_copy_files()
 	{
-		if [ "$1" -a "$2" ]; then
-			local CUSTOMER=$1
-			local BOARDTYPE=$2
-		elif [ "$1" ]; then
-			local BOARDTYPE=$1
-		else
-			exit 1
-		fi
+		local BOARDTYPE=$1
+		local CUSTOMER=$2
 
 		# Validate seleced board and customer
 		set_target $BOARDTYPE
@@ -259,13 +253,6 @@ function genconfig {
 		# Enable Pckage source tree override if selected
 		[ $SRCTREEOVERR -eq 1 ] && echo CONFIG_SRC_TREE_OVERRIDE=y >> .config
 
-		# Force regeneration of kernel Makefile
-		# Needed to disable kmods for iopsys-brcm targets
-		touch package/kernel/linux/Makefile
-
-		# Set default values based on selected parameters
-		v "$(make defconfig 2>&1)"
-
 		# developer mode selected ?
 		if [ $DEVELOPER -eq 1 ]; then
 			# rewrite url to clone with ssh instead of http
@@ -281,6 +268,13 @@ function genconfig {
 			echo "CONFIG_ENDPT_OPEN=y" >> .config
 			echo "CONFIG_NATALIE_OPEN=y" >> .config
 		fi
+
+		# Force regeneration of kernel Makefile
+		# Needed to disable kmods for iopsys-brcm targets
+		touch package/kernel/linux/Makefile
+
+		# Set default values based on selected parameters
+		v "$(make defconfig 2>&1)"
 
 		# Temporary fixup for juci/luci profile
 		if [ "$PROFILE" == "luci" ]; then
