@@ -3,7 +3,8 @@
 . /lib/functions.sh
 include /lib/network
 
-[ "$INTERFACE" != "$(uci get layer2_interface_ethernet.Wan.ifname)" ] && exit
+[ "$INTERFACE" != "$(eth0.2)" ] && exit
+[ "$(uci get netmode.setup.curmode)" != "repeater" ] && exit
 
 case "$(uci get netmode.setup.curmode)" in
 		repeater|repeater_dualdown) echo "Preparing to switch mode" ;;
@@ -20,7 +21,7 @@ get_wifi_wet_interface() {
 #	}
 #	config_load wireless
 #	config_foreach handle_interface wifi-iface "$device"
-	echo "wl1"
+	echo "apcli0"
 }
 
 get_wifi_iface_cfgstr() {
@@ -47,7 +48,7 @@ case "$ACTION" in
 		esac
 		uci commit wireless
 		#add wan ethernet port
-		uci set network.wan.ifname="$(echo $(uci get layer2_interface_ethernet.Wan.ifname) $(uci get network.wan.ifname) | tr ' ' '\n' | sort -u | tr '\n' ' ')"
+		uci set network.wan.ifname="$(echo eth0.2 $(uci get network.wan.ifname) | tr ' ' '\n' | sort -u | tr '\n' ' ')"
 		ubus call uci commit '{"config":"network"}'
 	;;
 	remove|unregister)
@@ -64,7 +65,7 @@ case "$ACTION" in
 		esac
 		uci commit wireless
 		#remove wan ethernet port
-		uci set network.wan.ifname="$(uci get network.wan.ifname | sed 's/$/ /' | sed -r "s/`uci get layer2_interface_ethernet.Wan.ifname` //g")"
+		uci set network.wan.ifname="$(uci get network.wan.ifname | sed 's/$/ /' | sed -r 's/eth0.2 //g')"
 		ubus call uci commit '{"config":"network"}'
 	;;
 esac
