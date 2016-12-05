@@ -39,7 +39,7 @@ config wifi-iface
 	option key      $WPAKEY
 
 config wifi-iface
-	option device   ra0
+	option device   rai0
 	option network  wan
 	option mode     wet
 	option ssid     ''
