@@ -26,13 +26,10 @@ QUESTD_CFLAGS:=-DIOPSYS_BROADCOM
 else ifeq ($(CONFIG_TARGET_iopsys_linksys),y)
 QUESTD_CFLAGS:=-DIOPSYS_MARVELL
 else ifeq ($(CONFIG_TARGET_lantiq_xrx500),y)
-<<<<<<< 63da9fc1ba0a934d1ab1055d7edbdf752ed69b20
-QUESTD_CFLAGS:=-DIOPSYS_LANTIQ
-=======
 QUESTD_CLFAGS:=-DIOPSYS_LANTIQ
 else ifeq ($(CONFIG_TARGET_iopsys_ramips_ex400),y)
 QUESTD_CLFAGS:=-DIOPSYS_MEDIATEK
->>>>>>> questd: 4.0.0
+TARGET_DEPEND:=+libnl-tiny
 else
 $(info (UNEXPECTED CONFIG TARGET))
 endif
@@ -42,7 +39,7 @@ export QUESTD_CFLAGS
 
 define Package/questd
 	CATEGORY:=Utilities
-	DEPENDS:=+libuci +libubox +ubus +libpthread
+	DEPENDS:=+libuci +libubox +ubus +libpthread +swconfig $(TARGET_DEPENDS)
 	TITLE:=router info daemon
 endef
 
