@@ -8,7 +8,7 @@ include $(INCLUDE_DIR)/kernel.mk
 PKG_NAME:=questd
 PKG_VERSION:=4.0.0
 
-PKG_SOURCE_VERSION:=759649bbbb558749b213fc1a8e26664da9cb22e5
+PKG_SOURCE_VERSION:=d307a244059ef2df64dc942a199f22551275975c
 PKG_SOURCE_PROTO:=git
 PKG_SOURCE_URL:=http://public.inteno.se:/questd
 
@@ -30,9 +30,9 @@ QUESTD_TARGET:=-DIOPSYS_LANTIQ
 else ifeq ($(CONFIG_TARGET_iopsys_ramips_ex400),y)
 QUESTD_TARGET:=-DIOPSYS_MEDIATEK
 QUESTD_CFLAGS:=\
-	-I$(LINUX_DIR)/user_headers/include \
+	-I$(STAGING_DIR)/usr/include \
 	-I$(STAGING_DIR)/usr/include/libnl-tiny
-TARGET_DEPEND:=+libnl
+TARGET_DEPENDS:=+libnl-tiny
 else
 $(info (UNEXPECTED CONFIG TARGET))
 endif
