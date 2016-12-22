@@ -1,6 +1,6 @@
 #!/bin/bash
 
-UPDATE=0
+
 
 print_git_update()
 {
@@ -586,6 +586,7 @@ usage(){
 # Exported interface
 function update_package {
 
+    UPDATE=0
     Color_Off='\033[0m'       # Text Reset
 
     # Regular Colors
