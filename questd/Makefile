@@ -32,7 +32,6 @@ QUESTD_TARGET:=-DIOPSYS_MEDIATEK
 QUESTD_CFLAGS:=\
 	-I$(STAGING_DIR)/usr/include \
 	-I$(STAGING_DIR)/usr/include/libnl-tiny
-TARGET_DEPENDS:=+libnl-tiny +swconfig
 else
 $(info (UNEXPECTED CONFIG TARGET))
 endif
@@ -44,7 +43,7 @@ export QUESTD_CFLAGS
 
 define Package/questd
 	CATEGORY:=Utilities
-	DEPENDS:=+libuci +libubox +ubus +libpthread $(TARGET_DEPENDS)
+	DEPENDS:=+libuci +libubox +ubus +libpthread +(TARGET_iopsys_ramips_ex400):swconfig +(TARGET_iopsys_ramips_ex400):libnl-tiny
 	TITLE:=router info daemon
 endef
 
