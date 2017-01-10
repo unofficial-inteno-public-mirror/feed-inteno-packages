@@ -169,6 +169,10 @@ start_service() {
 
 reload_service() {
         switch_netmode
+
+	# set default JUCI page to overview
+	uci -q set juci.juci.homepage="overview"
+	uci commit juci
 }
 
 service_triggers()
