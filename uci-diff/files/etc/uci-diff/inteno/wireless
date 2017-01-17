@@ -1,0 +1,22 @@
+{"wireless": {
+    "wl0": {
+        ".name": "wl0",
+        ".type": "wifi-device",
+        "channel": 100
+    },
+    "wl1": {
+        ".name": "wl1",
+        ".type": "wifi-device",
+        "wmm": 0
+    },
+    "wi0-0": {
+        ".type": "wifi-iface",
+        "device": "wi0-0",
+        "ssid": "Fredrik"
+    },
+    "wi1-0": {
+        ".type": "wifi-iface",
+        "device": "wi1-0",
+        "ssid": "blah"
+    }
+}}
