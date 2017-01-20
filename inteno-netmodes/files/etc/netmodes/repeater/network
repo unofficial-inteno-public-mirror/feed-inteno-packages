@@ -4,22 +4,13 @@ config interface 'loopback'
 	option ipaddr '127.0.0.1'
 	option netmask '255.0.0.0'
 
-config interface 'lan'
-	option type 'bridge'
-	option proto 'static'
-	option is_lan '1'
-	option ipaddr '192.168.11.1'
-	option netmask '255.255.255.0'
-	option ip6assign '60'
-	option ifname 'eth0.1'
-
 config device 'lan_dev'
 	option name 'eth0.1'
 	option macaddr 'f6:93:7c:0f:d5:54'
 
 config interface 'wan'
 	option type 'bridge'
-	option ifname 'eth0.2 apcli0 ra0 rai0'
+	option ifname 'eth0.2 eth0.1'
 	option proto 'dhcp'
 	option reqopts '66 67 128 224'
 
