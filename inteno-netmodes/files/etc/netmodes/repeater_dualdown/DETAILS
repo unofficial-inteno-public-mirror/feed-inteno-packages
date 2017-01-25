@@ -12,9 +12,6 @@
 		"DG40*",
 		"EG40*"
 	],
-	"acl" : [
-		"admin"
-	],
 	"uplink_band": 'b',
 	"credentials" : 1,
 	"reboot" : 0
