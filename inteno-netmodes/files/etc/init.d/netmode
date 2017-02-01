@@ -145,6 +145,21 @@ populate_netmodes() {
 	uci commit netmode
 }
 
+convert_macros() {
+	local BMAC=$(db -q get hw.board.BaseMacAddr | tr -d ':')
+	local MACLAN=$(printf "%0.12x\n" $((0x$BMAC)))
+	local MACWAN=$(printf "%0.12x\n" $((0x$BMAC + 1)))
+
+	MACLAN=$(echo $MACLAN | sed -e "s/.\{2\}/&:/g")
+	MACWAN=$(echo $MACWAN | sed -e "s/.\{2\}/&:/g")
+
+	MACLAN=${MACLAN:0:17}
+	MACWAN=${MACWAN:0:17}
+
+	grep -q "\$MACLAN" /etc/config/network && sed -i "s/\$MACLAN/$MACLAN/g" /etc/config/network
+	grep -q "\$MACWAN" /etc/config/network && sed -i "s/\$MACWAN/$MACWAN/g" /etc/config/network
+}
+
 switch_netmode() {
 	[ -f /etc/config/netmode -a -d $modedir ] || return
 
@@ -154,6 +169,7 @@ switch_netmode() {
 	config_get conf $curmode conf
 	cp /etc/netmodes/$conf/* /etc/config/
 	rm -f /etc/config/DETAILS
+	convert_macros
 	sync
 	local reboot=$(uci -q get netmode.$curmode.reboot)
 	if [ "$reboot" == "0" ]; then

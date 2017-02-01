@@ -15,7 +15,7 @@ config interface 'lan'
 
 config device 'lan_dev'
 	option name 'eth0.1'
-	option macaddr 'f6:93:7c:0f:d5:54'
+	option macaddr '$MACLAN'
 
 config interface 'wan'
 	option ifname 'eth0.2'
@@ -24,7 +24,7 @@ config interface 'wan'
 
 config device 'wan_dev'
 	option name 'eth0.2'
-	option macaddr 'f6:93:7c:0f:d5:55'
+	option macaddr '$MACWAN'
 
 config interface 'wan6'
 	option ifname '@wan'
