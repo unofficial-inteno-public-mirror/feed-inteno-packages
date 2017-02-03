@@ -3,6 +3,8 @@
 . /lib/functions.sh
 include /lib/network
 
+ps | grep hotplug | grep button && exit
+
 WANDEV="eth0.2"
 
 [ "$INTERFACE" != "$WANDEV" ] && exit
