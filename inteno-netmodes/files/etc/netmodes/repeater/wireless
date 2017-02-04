@@ -42,7 +42,7 @@ config wifi-iface
 	option device   rai0
 	option network  wan
 	option mode     wet
-	option ssid     ''
+	option ssid     Inteno-$BSSID4
 	option encryption psk2
-	option key      ''
+	option key      $WPAKEY
 
