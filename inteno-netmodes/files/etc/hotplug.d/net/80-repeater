@@ -37,6 +37,8 @@ get_wifi_iface_cfgstr() {
 
 case "$ACTION" in
 	add|register)
+		link=$(swconfig dev switch0 port 0 get link | awk '{print$2}' | cut -d':' -f2)
+		[ "$link" == "down" ] && return
 		echo "Autoswitch to Extender mode" > /dev/console
 		sleep 2
 		wetif="$(get_wifi_wet_interface)"
