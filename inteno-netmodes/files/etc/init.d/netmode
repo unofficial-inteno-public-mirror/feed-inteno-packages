@@ -72,7 +72,7 @@ populate_netmodes() {
 
 			case "$mode" in
 				repeater*)
-					wlctl -i wl1 ap >/dev/null 2>&1 || continue
+					wlctl -i wl1 ap >/dev/null 2>&1 || ifconfig rai0 2>/dev/null | grep -q rai0 || continue
 				;;
 			esac
 
