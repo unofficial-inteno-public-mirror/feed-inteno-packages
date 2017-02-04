@@ -149,6 +149,8 @@ convert_macros() {
 	local BMAC=$(db -q get hw.board.BaseMacAddr | tr -d ':')
 	local MACLAN=$(printf "%0.12x\n" $((0x$BMAC)))
 	local MACWAN=$(printf "%0.12x\n" $((0x$BMAC + 1)))
+	local BSSID=$(printf "%0.12x\n" $((0x$BMAC + 2)))
+	local BSSID4=$(echo -n $BSSID | tail -c 4 | tr 'a-z' 'A-Z')
 
 	MACLAN=$(echo $MACLAN | sed -e "s/.\{2\}/&:/g")
 	MACWAN=$(echo $MACWAN | sed -e "s/.\{2\}/&:/g")
@@ -158,6 +160,7 @@ convert_macros() {
 
 	grep -q "\$MACLAN" /etc/config/network && sed -i "s/\$MACLAN/$MACLAN/g" /etc/config/network
 	grep -q "\$MACWAN" /etc/config/network && sed -i "s/\$MACWAN/$MACWAN/g" /etc/config/network
+	grep -q "\$BSSID4" /etc/config/network && sed -i "s/\$BSSID4/$BSSID4/g" /etc/config/network
 }
 
 switch_netmode() {
