@@ -35,9 +35,10 @@ get_wifi_iface_cfgstr() {
 	config_foreach get_cfgno wifi-iface $1 $2
 }
 
+link=$(swconfig dev switch0 port 0 get link | awk '{print$2}' | cut -d':' -f2)
+
 case "$ACTION" in
 	add|register)
-		link=$(swconfig dev switch0 port 0 get link | awk '{print$2}' | cut -d':' -f2)
 		[ "$link" == "down" ] && return
 		echo "Autoswitch to Extender mode" > /dev/console
 		sleep 2
@@ -55,6 +56,7 @@ case "$ACTION" in
 		ubus call network reload
 	;;
 	remove|unregister)
+		[ "$link" == "up" ] && return
 		echo "Autoswitch to Repeater mode" > /dev/console
 		sleep 2
 		wetif="$(get_wifi_wet_interface)"
