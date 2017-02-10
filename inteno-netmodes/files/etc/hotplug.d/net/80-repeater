@@ -36,6 +36,7 @@ get_wifi_iface_cfgstr() {
 }
 
 link=$(swconfig dev switch0 port 0 get link | awk '{print$2}' | cut -d':' -f2)
+defroute=$(ip route | grep default | awk '{print$3}')
 
 case "$ACTION" in
 	add|register)
@@ -54,6 +55,7 @@ case "$ACTION" in
 		uci set network.wan.ifname="$(echo $WANDEV $(uci get network.wan.ifname) | sed 's/$/ /' | sed -r "s/$wetif //g" | tr ' ' '\n' | sort -u | tr '\n' ' ')"
 		uci commit network
 		ubus call network reload
+		ping -c 1 -w 10 $defroute >/dev/null 2>&1 || killall -HUP udhcpc
 	;;
 	remove|unregister)
 		[ "$link" == "up" ] && return
@@ -71,5 +73,6 @@ case "$ACTION" in
 		uci set network.wan.ifname="$(echo $wetif $(uci get network.wan.ifname) | sed 's/$/ /' | sed -r "s/$WANDEV //g" | tr ' ' '\n' | sort -u | tr '\n' ' ')"
 		uci commit network
 		ubus call network reload
+		ping -c 1 -w 10 $defroute >/dev/null 2>&1 || killall -HUP udhcpc
 	;;
 esac
