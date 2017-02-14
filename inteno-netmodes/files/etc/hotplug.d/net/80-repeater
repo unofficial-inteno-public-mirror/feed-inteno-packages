@@ -14,6 +14,8 @@ case "$(uci get netmode.setup.curmode)" in
 		*) exit ;;
 esac
 
+echo "0" > /sys/devices/virtual/net/br-wan/bridge/multicast_snooping
+
 get_wifi_wet_interface() {
 	handle_interface() {
 		config_get mode "$1" mode
