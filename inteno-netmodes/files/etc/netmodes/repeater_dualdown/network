@@ -14,6 +14,7 @@ config interface 'wan'
 	option proto 'dhcp'
 	option hostname 'Inteno-$BSSID4'
 	option reqopts '66 67 128 224'
+	option igmp_snooping '0'
 
 config device 'wan_dev'
 	option name 'eth0.2'
