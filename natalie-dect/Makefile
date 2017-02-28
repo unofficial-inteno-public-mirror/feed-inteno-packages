@@ -10,7 +10,7 @@ include $(TOPDIR)/rules.mk
 PKG_NAME:=natalie-dect
 PKG_VERSION:=12.26
 
-PKG_SOURCE_VERSION:=35fed3a10124bd660b74704011256039ba9cf54d
+PKG_SOURCE_VERSION:=ronny-bcmcreator-5.02L.02
 ifeq ($(CONFIG_NATALIE_OPEN),y)
 BRCM_KERNEL_PROFILE=$(shell echo $(CONFIG_BCM_KERNEL_PROFILE) | sed s/\"//g)
 PKG_SOURCE:=$(PKG_NAME)-$(BRCM_KERNEL_PROFILE)-$(PKG_VERSION)-$(PKG_SOURCE_VERSION).tar.gz
@@ -29,10 +29,10 @@ include $(INCLUDE_DIR)/image.mk
 include $(INCLUDE_DIR)/kernel.mk
 
 
-BCM_KERNEL_VERSION=`cat $(BUILD_DIR)/bcmkernel/bcm963xx/kernel/linux-*/include/config/kernel.release`
+export BCM_KERNEL_VERSION := $(shell cat $(wildcard $(BUILD_DIR)/bcmkernel/bcm963xx/kernel/linux-*)/include/config/kernel.release)
+export BCM_KERNEL_PATH := $(BUILD_DIR)/bcmkernel/bcm963xx
 
 export BUILD_DIR
-export BCM_KERNEL_VERSION
 
 define Package/natalie-dect
   SECTION:=net
