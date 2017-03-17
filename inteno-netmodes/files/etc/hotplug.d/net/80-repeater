@@ -9,9 +9,16 @@ WANDEV="eth0.2"
 
 [ "$INTERFACE" != "$WANDEV" ] && exit
 
+defroute=$(ip route | grep default | awk '{print$3}')
+
 case "$(uci get netmode.setup.curmode)" in
-		repeater|repeater_dualdown) echo "Preparing to switch mode" ;;
-		*) exit ;;
+		repeater|repeater_dualdown)
+			echo "Preparing to switch mode"
+		;;
+		*)
+			ping -c 1 -w 5 $defroute >/dev/null 2>&1 || killall -USR1 udhcpc
+			exit
+		;;
 esac
 
 echo "0" > /sys/devices/virtual/net/br-wan/bridge/multicast_snooping
@@ -38,7 +45,6 @@ get_wifi_iface_cfgstr() {
 }
 
 link=$(swconfig dev switch0 port 0 get link | awk '{print$2}' | cut -d':' -f2)
-defroute=$(ip route | grep default | awk '{print$3}')
 
 case "$ACTION" in
 	add|register)
