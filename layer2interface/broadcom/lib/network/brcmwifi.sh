@@ -180,10 +180,12 @@ enableBSD() {
 	nvram set bsd_primary=192.168.1.1
 	nvram set bsd_scheme=2
 	nvram set bsd_poll_interval=1
-	nvram set bsd_bounce_detect="180 8 3600"
+	nvram set bsd_bounce_detect="180 2 3600"
 	nvram set bsd_msglevel=0
 	nvram set bsd_status_poll=5
 	nvram set bsd_status=3
+	nvram set bsd_actframe=1
+	nvram set bsd_steer_no_deauth=1
 
 	for wdev in wl0 wl1; do
 		#if [ "$(uci -q get wireless.$wdev.band_steering)" == "1" ]; then
@@ -194,16 +196,16 @@ enableBSD() {
 				# RSSI Threshold based policy #
 				if [ "$(nvram get ${wdev}_nband)" == "2" ]; then
 					# 2.4G
-					nvram set ${wdev}_bsd_if_quality_policy="0 0x0 -100"
+					nvram set ${wdev}_bsd_if_qualify_policy="0 0x0"
 					nvram set ${wdev}_bsd_if_select_policy=$wdev_to_steer
-					nvram set ${wdev}_bsd_sta_select_policy="10 0 0 0 1 1 0 0 0 0x400"
+					nvram set ${wdev}_bsd_sta_select_policy="20 -60 0 0 1 0 0 0 0 0x42"
 					nvram set ${wdev}_bsd_steer_prefix=$wdev
-					nvram set ${wdev}_bsd_steering_policy="0 5 3 0 0 0x1"
+					nvram set ${wdev}_bsd_steering_policy="0 0 0 -60 0 0x52"
 				else
 					# 5G
-					nvram set ${wdev}_bsd_if_quality_policy="20 0x0 $rssi_threshold"
+					nvram set ${wdev}_bsd_if_qualify_policy="30 0x0"
 					nvram set ${wdev}_bsd_if_select_policy=$wdev_to_steer
-					nvram set ${wdev}_bsd_sta_select_policy="100 0 0 0 0 1 0 0 0 0x40"
+					nvram set ${wdev}_bsd_sta_select_policy="20 $rssi_threshold 0 0 1 0 0 0 0 0x40"
 					nvram set ${wdev}_bsd_steer_prefix=$wdev
 					nvram set ${wdev}_bsd_steering_policy="80 5 3 $rssi_threshold 0 0x40"
 				fi
@@ -211,14 +213,14 @@ enableBSD() {
 				# Bandwidth Usage based policy #
 				if [ "$(nvram get ${wdev}_nband)" == "2" ]; then
 					# 2.4G
-					nvram set ${wdev}_bsd_if_quality_policy="0 0x0 -75"
+					nvram set ${wdev}_bsd_if_qualify_policy="0 0x0 -75"
 					nvram set ${wdev}_bsd_if_select_policy=$wdev_to_steer
 					nvram set ${wdev}_bsd_sta_select_policy="0 0 0 0 0 1 0 0 0 0x600"
 					nvram set ${wdev}_bsd_steer_prefix=$wdev
 					nvram set ${wdev}_bsd_steering_policy="0 5 3 0 0 0x10"
 				else
 					# 5G
-					nvram set ${wdev}_bsd_if_quality_policy="40 0x0 -75"
+					nvram set ${wdev}_bsd_if_qualify_policy="40 0x0 -75"
 					nvram set ${wdev}_bsd_if_select_policy=$wdev_to_steer
 					nvram set ${wdev}_bsd_sta_select_policy="0 0 0 0 0 1 0 0 0 0x240"
 					nvram set ${wdev}_bsd_steer_prefix=$wdev
@@ -351,11 +353,11 @@ wlmngr_finalize() {
 
 	# RADAR THRESHOLD VALUES #
 	local pcid="$(wlctl -i wl$idx revinfo | awk 'FNR == 2 {print}' | cut -d'x' -f2)"
-#	local isac="$(db get hw.$pcid.is_ac)"
-#	if [ "$isac" == "1" ]; then
-#		wlctl -i $device msglevel +radar +dfs
-#		#dhdctl -i $device dconpoll 200
-#	fi
+	local isac="$(db get hw.$pcid.is_ac)"
+	if [ "$isac" == "1" ]; then
+		wlctl -i wl$idx msglevel +radar +dfs 2>/dev/null
+		dhdctl -i wl$idx dconpoll 200 2>/dev/null
+	fi
 	local rdrthrs="$(db get hw.$pcid.radarthrs)"
 	if [ -n "$rdrthrs" ]; then
 		wlctl -i wl$idx radarthrs $rdrthrs
