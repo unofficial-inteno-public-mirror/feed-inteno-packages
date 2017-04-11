@@ -181,14 +181,11 @@ handle_provisioning() {
 	local url
 	local tftpfile
 	local host
-	local md5
 	local defaultreset
-	local pack
-	local packname
-	local number=$RANDOM
+	local deckey
 	local retry=1
-	local number
 	local incsleep=$SLEEP
+	local number=$RANDOM
 	let "number %= $RANGE"
 	if [[ ! -e $IUPTEMP ]]; then
 		mkdir $IUPTEMP
@@ -197,38 +194,44 @@ handle_provisioning() {
 	config_get_bool enabled "$config" enabled "$default"
 	config_get_bool defaultreset "$config" defaultreset
 	config_get deckey "$config" deckey
-	if [ "$enabled" -eq 1	]; then
-		if [ "$config" == "iup" ]; then
-			v "Using url received in dhcp options"
-			config_get url "$config" urliup
-		else
-			config_get url "$config" url
-		fi
-		url=${url//\$MAC/$MAC}
-		v "Downloading from url \"$url\""
+	if [ "$enabled" -ne 1 ]; then
+		reboot="off"
+		CONF=0
+		return
+	fi
 
-		while [ $retry -le $RETRYSTOP ]
-		do
-		  if [ ${url%%:*} == "tftp" ]; then
+	# get the url
+	if [ "$config" == "iup" ]; then
+		config_get url "$config" urliup
+		v "Using url received in dhcp options $url"
+	else
+		config_get url "$config" url
+		v "Using url $url"
+	fi
+	url=${url//\$MAC/$MAC}
+	v "Downloading from url \"$url\""
+
+	# download the file
+	while [ $retry -le $RETRYSTOP ]; do
+		if [ ${url%%:*} == "tftp" ]; then
 			tftpfile=${url#*\/\/}
 			host=${tftpfile%%\/*}
 			tftpfile=${tftpfile#*\/}
-
 			/usr/bin/tftp -l $IUPCONFFILES -r "$tftpfile" -g "$host"
-		  else
+		else
 			get_image "$url" "cat" > $IUPCONFFILES
-		  fi
-		  if [ -s $IUPCONFFILES ]; then
+		fi
+		if [ -s $IUPCONFFILES ]; then
 			v "Download finished"
 			retry=$((RETRYSTOP + 1))
-		  else
-		  v "Download failed, retrying in $incsleep seconds"
-		  sleep $incsleep
-		  incsleep=$((incsleep * retry + number))
-		  retry=$((retry+1))
-		  fi
-		done
-	fi
+		else
+			v "Download failed, retrying in $incsleep seconds"
+			sleep $incsleep
+			incsleep=$((incsleep * retry + number))
+			retry=$((retry+1))
+		fi
+	done
+
 	if [ ! -s "$IUPCONFFILES" ]; then
 		echo "File not Found"
 		reboot="off"
@@ -242,6 +245,9 @@ handle_Downloaded_file()
 {
 	local DECKEY
 	local KEY
+	local md5
+	local pack
+	local packname
 	[ -n "$1" ] && DECKEY=$(echo $1 | tr -d '\n' | hexdump -e '16/1 "%02x"')
 	KEY=${DECKEY:-$DESKEY}
 	local img_type
