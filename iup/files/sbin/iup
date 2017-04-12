@@ -228,13 +228,14 @@ handle_provisioning() {
 		  retry=$((retry+1))
 		  fi
 		done
-	fi
-	if [ ! -s "$IUPCONFFILES" ] && [ "$enabled" -eq 1 ]; then
-		echo "File not Found"
-		reboot="off"
-		CONF=0
-	else
-		handle_Downloaded_file $deckey
+
+		if [ ! -s "$IUPCONFFILES" ] then
+			echo "File not Found"
+			reboot="off"
+			CONF=0
+		else
+			handle_Downloaded_file $deckey
+		fi
 	fi
 }
 
