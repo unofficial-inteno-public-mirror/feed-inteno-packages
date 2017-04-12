@@ -229,7 +229,7 @@ handle_provisioning() {
 		  fi
 		done
 
-		if [ ! -s "$IUPCONFFILES" ] then
+		if [ ! -s "$IUPCONFFILES" ]; then
 			echo "File not Found"
 			reboot="off"
 			CONF=0
