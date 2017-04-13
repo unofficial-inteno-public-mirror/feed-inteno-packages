@@ -67,6 +67,20 @@ build_ice_consumer() {
 	cd $curdir
 }
 
+build_mediatek_kernel() {
+	echo "Building mediatek kernel tarball"
+	mediatek_commit=$(grep CONFIG_KERNEL_GIT_COMMIT .config | cut -d '=' -f2 | tr -d '"')
+	kernel_version=$(grep KERNEL_PATCHVER target/linux/iopsys-ramips/Makefile  | cut -d '=' -f2)
+	echo $mediatek_commit
+	cd build_dir/target-mipsel_1004kc*/linux-iopsys-ramips_*
+	cp -r linux-${kernel_version}.* mediatek-kernel
+	rm -rf mediatek-kernel/drivers/net/wireless/mt_wifi
+	rm -rf mediatek-kernel/drivers/net/wireless/rlt_wifi
+	rm -rf mediatek-kernel/.git
+	tar -czv mediatek-kernel -f mediatek-kernel-open-$mediatek_commit.tar.gz
+	
+}
+
 function generate_tarballs {
 
     SERVER="god@software.inteno.se"
@@ -79,10 +93,11 @@ function generate_tarballs {
     sdkversion=$(grep "CONFIG_BRCM_SDK_VER.*=y" .config | awk -F'[_,=]' '{print$5}')
     curdir=$(pwd)
 
-    build_bcmkernel_consumer
-    build_natalie_consumer
-    build_endptcfg_consumer
-    build_ice_consumer
+    # build_bcmkernel_consumer
+    # build_natalie_consumer
+    # build_endptcfg_consumer
+    # build_ice_consumer
+	build_mediatek_kernel
 
 }
 
