@@ -8,11 +8,11 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=icwmp
-PKG_VERSION:=3.0-2017-04-10
+PKG_VERSION:=3.0-2017-04-26
 PKG_FIXUP:=autoreconf
 PKG_SOURCE_URL:=http://public.inteno.se:/icwmp.git
 PKG_SOURCE_PROTO:=git
-PKG_SOURCE_VERSION:=c628b80e78c0b818daaded3872a67f83ea6eec10
+PKG_SOURCE_VERSION:=3caab8f4ae74b2fbdd29eab839c7856a2cd261fc
 PKG_RELEASE=$(PKG_SOURCE_VERSION)
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION)-$(PKG_SOURCE_VERSION).tar.gz
 PKG_SOURCE_SUBDIR:=$(PKG_NAME)-$(PKG_VERSION)
@@ -122,11 +122,11 @@ endif
 
 define Package/icwmp-$(BUILD_VARIANT)/install
 	$(INSTALL_DIR) $(1)/etc/icwmpd
+	$(INSTALL_CONF) $(PKG_BUILD_DIR)/config/dmmap $(1)/etc/icwmpd
 	$(INSTALL_DIR) $(1)/usr/sbin
 	$(CP) $(PKG_BUILD_DIR)/bin/icwmpd $(1)/usr/sbin
 	$(INSTALL_DIR) $(1)/etc/config
 	$(INSTALL_CONF) $(PKG_BUILD_DIR)/config/cwmp $(1)/etc/config
-	$(INSTALL_CONF) $(PKG_BUILD_DIR)/config/dmmap $(1)/etc/config
 	$(INSTALL_CONF) $(PKG_BUILD_DIR)/config/firewall.cwmp $(1)/etc/firewall.cwmp
 	$(INSTALL_DIR) $(1)/etc/init.d
 	$(INSTALL_DIR) $(1)/etc/uci-defaults
