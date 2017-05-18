@@ -16,7 +16,7 @@ define Package/voice-client
   SECTION:=net
   CATEGORY:=Network
   TITLE:=voice-client
-  DEPENDS:=+asterisk18-mod
+  DEPENDS:=+asterisk13
 endef
 
 define Package/voice-client/description
